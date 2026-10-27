@@ -1,0 +1,40 @@
+name: Accessibility (WCAG 2.2 AA)
+
+# The default target is intentionally inaccessible, so this job is EXPECTED TO FAIL against it.
+# The evidence (HTML report, coverage matrix) is published either way.
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Site to test
+        default: https://broken-workshop.dequelabs.com
+  pull_request:
+  schedule:
+    - cron: '0 6 * * 1' # weekly full run picks up drift and expired waivers
+
+jobs:
+  a11y:
+    runs-on: ubuntu-latest # run WebKit keyboard tests on Linux, not macOS
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: npm run typecheck
+      - run: npx playwright test
+        env:
+          BASE_URL: ${{ inputs.base_url || vars.A11Y_BASE_URL || 'https://broken-workshop.dequelabs.com' }}
+          WCAG_TARGET: 2.2-AA
+      - name: Publish coverage matrix to job summary
+        if: always()
+        run: cat reports/wcag-coverage.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: a11y-evidence
+          path: |
+            playwright-report/
+            reports/
+          retention-days: 90 # keep audit evidence

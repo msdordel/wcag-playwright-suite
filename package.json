@@ -1,0 +1,24 @@
+{
+  "name": "wcag-playwright-suite",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reference architecture for a WCAG 2.2 AA-focused Playwright test suite",
+  "scripts": {
+    "test": "playwright test",
+    "test:axe": "playwright test tests/automated",
+    "test:keyboard": "playwright test tests/keyboard tests/components",
+    "test:adaptation": "playwright test tests/adaptation",
+    "test:sc": "playwright test --grep",
+    "test:critical": "playwright test --grep @critical",
+    "update-tab-order": "playwright test tests/keyboard --update-snapshots",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "@playwright/test": "^1.50.0",
+    "@types/node": "^22.0.0",
+    "axe-core": "^4.10.0",
+    "typescript": "^5.6.0"
+  }
+}
