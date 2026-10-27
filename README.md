@@ -153,3 +153,7 @@ known engine quirks:
 - **Reachability** can't see click handlers on non-focusable `div`s.
 - **Content checks** catch obvious junk (placeholders, filenames, "image", "decorative"), not inaccurate descriptions.
 - Automation finds roughly 30–40% of WCAG issues. See `docs/MANUAL-TESTING.md` for the rest.
+
+## License
+
+[MIT](LICENSE) © 2026 Mark Dordel

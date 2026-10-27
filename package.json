@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Reference architecture for a WCAG 2.2 AA-focused Playwright test suite",
+  "license": "MIT",
   "scripts": {
     "test": "playwright test",
     "test:axe": "playwright test tests/automated",
