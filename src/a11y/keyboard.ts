@@ -168,15 +168,22 @@ export async function hasVisibleFocusIndicator(page: Page, stop: FocusStop): Pro
   const clip = width > 0 && height > 0 ? { x, y, width, height } : null;
   const shot = () => (clip ? page.screenshot({ clip, animations: 'disabled', caret: 'hide' }) : Promise.resolve(null));
 
+  // Restore focus. Modality is still "keyboard", so :focus-visible continues to match.
+  const refocus = () => el.evaluate((n) => (n as HTMLElement).focus({ focusVisible: true } as FocusOptions));
+
   const focusedStyles = await styles();
-  const focusedShot = await shot();
   await el.evaluate((n) => (n as HTMLElement).blur());
   const blurredStyles = await styles();
+  // A style change already proves an indicator; screenshots (the slow part) are only needed for
+  // indicators drawn some other way, e.g. a pseudo-element or a parent's :focus-within style.
+  if (focusedStyles !== blurredStyles || !clip) {
+    await refocus();
+    return focusedStyles !== blurredStyles;
+  }
   const blurredShot = await shot();
-  // Restore focus. Modality is still "keyboard", so :focus-visible continues to match.
-  await el.evaluate((n) => (n as HTMLElement).focus({ focusVisible: true } as FocusOptions));
-
-  return focusedStyles !== blurredStyles || (!!focusedShot && !!blurredShot && !focusedShot.equals(blurredShot));
+  await refocus();
+  const focusedShot = await shot();
+  return !!focusedShot && !!blurredShot && !focusedShot.equals(blurredShot);
 }
 
 /** 2.4.11: true when the focused element is ENTIRELY hidden (sticky headers, cookie banners, off-screen). */
