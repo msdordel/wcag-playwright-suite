@@ -1,5 +1,6 @@
 import { test, expect, gotoStable, sc } from '../../src/a11y/fixtures';
 import { tabKey } from '../../src/a11y/keyboard';
+import { WORKSHOP_URL, hasSite } from '../../data/pages';
 
 // Some dialog libraries (including this one, Cauldron) render a 0×0 role="dialog" wrapper with positioned
 // children. Playwright treats a 0×0 element as hidden, so visibility is asserted on the dialog's heading.
@@ -12,8 +13,11 @@ const dialogContent = (page: import('@playwright/test').Page) => page.getByRole(
  */
 const openTrigger = (page: import('@playwright/test').Page) => page.getByRole('button', { name: 'Cook Chocolate Cake' });
 
+// Behaviour tests for one specific site. Skipped when SITES excludes it.
+test.skip(!hasSite('workshop'), 'Broken Workshop not selected in SITES');
+
 test.beforeEach(async ({ page }) => {
-  await gotoStable(page, '/');
+  await gotoStable(page, WORKSHOP_URL);
   await openTrigger(page).focus();
   await page.keyboard.press('Enter');
 });

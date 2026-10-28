@@ -61,6 +61,9 @@ export interface TraversalResult {
  * Tab forward from the top of the document until focus leaves the page or wraps.
  * `onStop` runs while each element holds focus, for per-stop assertions.
  */
+/** Stops inside a single iframe before focus that never leaves it counts as a trap. */
+const IFRAME_TAB_LIMIT = 50;
+
 export async function tabThrough(
   page: Page,
   { max = 300, onStop }: { max?: number; onStop?: (stop: FocusStop) => Promise<void> } = {},
@@ -68,6 +71,7 @@ export async function tabThrough(
   await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
   const stops: FocusStop[] = [];
   const seen = new Set<string>();
+  let tabsInsideFrame = 0;
 
   for (let i = 0; i < max; i++) {
     await page.keyboard.press(tabKey(page));
@@ -76,6 +80,10 @@ export async function tabThrough(
       if (stops.length) return { stops, trappedAt: null, exhausted: false }; // focus left the document
       continue;
     }
+    // While focus moves through an iframe's own document, the top page only sees the <iframe>.
+    // Keep tabbing until focus comes back out; it's a trap only if it never does.
+    if (stop.tag === 'iframe' && stop.id === stops.at(-1)?.id && tabsInsideFrame++ < IFRAME_TAB_LIMIT) continue;
+    tabsInsideFrame = 0;
     if (seen.has(stop.id)) {
       // Headless Firefox has no browser UI to tab into, so focus stays on the last element.
       // That counts as the end of the page only when nothing tabbable follows it in the DOM.
@@ -142,28 +150,33 @@ export async function hasVisibleFocusIndicator(page: Page, stop: FocusStop): Pro
   const el = page.locator(stopSelector(stop));
   if (stop.rect.width === 0 || stop.rect.height === 0) return false;
 
+  // With outline-style none, outline width/color/offset draw nothing. Chromium's UA :focus-visible
+  // style still changes outline-offset, which would pass a page that removed its focus ring.
   const styles = () => el.evaluate((n, props) => {
     const cs = getComputedStyle(n);
-    return props.map((p) => cs.getPropertyValue(p)).join('|');
+    const noOutline = cs.outlineStyle === 'none';
+    return props.map((p) => (noOutline && p.startsWith('outline-') ? 'none' : cs.getPropertyValue(p))).join('|');
   }, INDICATOR_PROPS);
+  // Padded element box, intersected with the viewport. Off-screen elements (2.4.11's concern)
+  // leave nothing to screenshot, so only their computed styles are compared.
   const pad = 8;
   const vp = page.viewportSize()!;
-  const clip = {
-    x: Math.max(0, stop.rect.x - pad),
-    y: Math.max(0, stop.rect.y - pad),
-    width: Math.min(vp.width, stop.rect.width + pad * 2),
-    height: Math.min(vp.height, stop.rect.height + pad * 2),
-  };
+  const x = Math.max(0, stop.rect.x - pad);
+  const y = Math.max(0, stop.rect.y - pad);
+  const width = Math.min(vp.width, stop.rect.x + stop.rect.width + pad) - x;
+  const height = Math.min(vp.height, stop.rect.y + stop.rect.height + pad) - y;
+  const clip = width > 0 && height > 0 ? { x, y, width, height } : null;
+  const shot = () => (clip ? page.screenshot({ clip, animations: 'disabled', caret: 'hide' }) : Promise.resolve(null));
 
   const focusedStyles = await styles();
-  const focusedShot = await page.screenshot({ clip, animations: 'disabled', caret: 'hide' });
+  const focusedShot = await shot();
   await el.evaluate((n) => (n as HTMLElement).blur());
   const blurredStyles = await styles();
-  const blurredShot = await page.screenshot({ clip, animations: 'disabled', caret: 'hide' });
+  const blurredShot = await shot();
   // Restore focus. Modality is still "keyboard", so :focus-visible continues to match.
   await el.evaluate((n) => (n as HTMLElement).focus({ focusVisible: true } as FocusOptions));
 
-  return focusedStyles !== blurredStyles || !focusedShot.equals(blurredShot);
+  return focusedStyles !== blurredStyles || (!!focusedShot && !!blurredShot && !focusedShot.equals(blurredShot));
 }
 
 /** 2.4.11: true when the focused element is ENTIRELY hidden (sticky headers, cookie banners, off-screen). */

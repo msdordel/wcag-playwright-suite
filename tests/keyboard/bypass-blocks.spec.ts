@@ -1,5 +1,5 @@
 import { test, expect, gotoStable, sc } from '../../src/a11y/fixtures';
-import { PAGES } from '../../data/pages';
+import { PAGES, unsupportedReason } from '../../data/pages';
 import { tabKey } from '../../src/a11y/keyboard';
 
 /**
@@ -7,7 +7,9 @@ import { tabKey } from '../../src/a11y/keyboard';
  * Many strict orgs require a working skip link as well, so this test enforces one.
  */
 for (const p of PAGES) {
-  test(`skip link works: ${p.name}`, sc('2.4.1', '2.4.7'), async ({ page }) => {
+  test(`skip link works: ${p.name}`, sc('2.4.1', '2.4.7'), async ({ page, browserName }) => {
+    const unsupported = unsupportedReason(p, browserName);
+    test.skip(!!unsupported, unsupported);
     await gotoStable(page, p.path);
     await page.keyboard.press(tabKey(page));
 

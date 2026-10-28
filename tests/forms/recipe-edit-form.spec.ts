@@ -1,6 +1,6 @@
 import type { Locator } from '@playwright/test';
 import { test, expect, gotoStable, sc } from '../../src/a11y/fixtures';
-import { openCookModal, openEditModal } from '../../data/pages';
+import { openCookModal, openEditModal, WORKSHOP_URL, hasSite } from '../../data/pages';
 
 /**
  * Layer 4: form behaviour. This is the pattern to copy for every form in the app.
@@ -16,8 +16,11 @@ async function expectErrorAssociated(field: Locator, text: RegExp) {
   }
 }
 
+// Behaviour tests for one specific site. Skipped when SITES excludes it.
+test.skip(!hasSite('workshop'), 'Broken Workshop not selected in SITES');
+
 test.beforeEach(async ({ page }) => {
-  await gotoStable(page, '/');
+  await gotoStable(page, WORKSHOP_URL);
   await openEditModal(page);
 });
 

@@ -37,7 +37,8 @@ for (const p of PAGES) {
       for (const [width, height] of [[390, 844], [844, 390]]) {
         await page.setViewportSize({ width, height });
         await gotoStable(page, p.path);
-        await expect(page.getByRole('main')).toBeVisible();
+        // Rendered text, not body visibility: absolutely positioned layouts can leave <body> at 0px tall.
+        await expect.poll(() => page.evaluate(() => document.body.innerText.trim().length), '1.3.4 page renders no content in this orientation').toBeGreaterThan(0);
         await expect(page.getByText(/rotate (your )?(device|screen)/i)).toHaveCount(0);
       }
     });

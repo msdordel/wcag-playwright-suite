@@ -25,8 +25,6 @@ export default defineConfig({
   // No {platform} in the path: tab-order baselines are per browser, and must match on macOS and Linux CI.
   snapshotPathTemplate: '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-{projectName}{ext}',
   use: {
-    // Default target: Deque's intentionally inaccessible demo app. Override with BASE_URL.
-    baseURL: process.env.BASE_URL ?? 'https://broken-workshop.dequelabs.com',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     // Removes animation timing as a source of false positives in focus/visual checks.

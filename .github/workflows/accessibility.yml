@@ -1,13 +1,13 @@
 name: Accessibility (WCAG 2.2 AA)
 
-# The default target is intentionally inaccessible, so this job is EXPECTED TO FAIL against it.
+# The default targets are intentionally inaccessible, so this job is EXPECTED TO FAIL against it.
 # The evidence (HTML report, coverage matrix) is published either way.
 on:
   workflow_dispatch:
     inputs:
-      base_url:
-        description: Site to test
-        default: https://broken-workshop.dequelabs.com
+      sites:
+        description: Comma-separated site ids (workshop, dream, mars, computech). Empty runs all.
+        default: ''
   pull_request:
   schedule:
     - cron: '0 6 * * 1' # weekly full run picks up drift and expired waivers
@@ -25,7 +25,7 @@ jobs:
       - run: npm run typecheck
       - run: npx playwright test
         env:
-          BASE_URL: ${{ inputs.base_url || vars.A11Y_BASE_URL || 'https://broken-workshop.dequelabs.com' }}
+          SITES: ${{ inputs.sites || vars.A11Y_SITES }}
           WCAG_TARGET: 2.2-AA
       - name: Publish coverage matrix to job summary
         if: always()

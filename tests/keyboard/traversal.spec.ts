@@ -3,7 +3,7 @@ import { test, expect, gotoStable, sc } from '../../src/a11y/fixtures';
 import {
   tabThrough, unreachableFocusables, hasVisibleFocusIndicator, isEntirelyObscured, type FocusStop,
 } from '../../src/a11y/keyboard';
-import { PAGES } from '../../data/pages';
+import { PAGES, unsupportedReason } from '../../data/pages';
 
 const describe = (s: FocusStop) => `${s.role ?? s.tag} "${s.name}"`;
 
@@ -15,7 +15,9 @@ for (const p of PAGES) {
   test(
     `keyboard traversal: ${p.name}`,
     sc('2.1.1', '2.1.2', '2.4.3', '2.4.7', '2.4.11', '3.2.1'),
-    async ({ page }, testInfo) => {
+    async ({ page, browserName }, testInfo) => {
+      const unsupported = unsupportedReason(p, browserName);
+      test.skip(!!unsupported, unsupported);
       await gotoStable(page, p.path);
       const startUrl = page.url();
       const popups: Page[] = [];
@@ -45,7 +47,7 @@ for (const p of PAGES) {
       // means any change shows up as a diff a human must approve (npm run update-tab-order).
       expect
         .soft(stops.map(describe).join('\n'), '2.4.3 Focus Order: sequence changed; review, then update snapshot')
-        .toMatchSnapshot(`${p.name}-tab-order.txt`);
+        .toMatchSnapshot(`${p.id}-tab-order.txt`);
     },
   );
 }

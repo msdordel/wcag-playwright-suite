@@ -3,10 +3,17 @@
 A reference architecture for **WCAG 2.2 AA** testing with Playwright. It produces evidence for each
 success criterion, so the results can feed an ACR/VPAT or a Section 508 review, not just a pass/fail count.
 
-It ships pointed at **[Deque's Broken Workshop](https://broken-workshop.dequelabs.com/)**, a demo app
-built with intentional accessibility bugs, so a fresh clone shows the suite finding real defects.
+It ships pointed at four of **Deque's intentionally inaccessible demo sites**, so a fresh clone shows the
+suite finding real defects:
 
-> **Expect failures.** Against the default target, a passing suite would mean the tests are broken.
+| Site id | Site | Pages tested |
+|---|---|---|
+| `workshop` | [Broken Workshop](https://broken-workshop.dequelabs.com/) | Recipe dashboard, plus 3 modal and error states |
+| `dream` | [Dream Destination](https://dequeuniversity.com/demo/dream) | Home (single-page booking site) |
+| `mars` | [Mars Commuter](https://dequeuniversity.com/demo/mars/) | Home (inner links are stubs) |
+| `computech` | [Gefälscht CompuTech](https://webtestingcourse.dequecloud.com/) | Home, Laptops & Notebooks, a product, Cart, Contact |
+
+> **Expect failures.** Against these targets, a passing suite would mean the tests are broken.
 
 ---
 
@@ -18,17 +25,17 @@ Requires **Node 22+**.
 git clone <this repo> && cd wcag-playwright-suite
 npm ci
 npx playwright install --with-deps   # Chromium, Firefox, WebKit
-npm test                             # runs against the Deque demo by default
+npm test                             # runs against all four demo sites
 ```
 
-A full run takes about 30 seconds on a laptop.
+A full run takes about 90 seconds on a laptop.
 
 ### Common commands
 
 | Command | What it does |
 |---|---|
 | `npm test` | Full suite, all layers, all browsers |
-| `BASE_URL=https://staging.example.gov npm test` | Run against another site |
+| `SITES=dream,mars npm test` | Only some sites (ids from the table above) |
 | `npm run test:sc -- @sc-2.4.7` | Only tests that provide evidence for one success criterion |
 | `npm run test:critical` | Critical pages only (suitable as a PR gate) |
 | `npm run test:axe` / `test:keyboard` / `test:adaptation` | One layer |
@@ -53,17 +60,20 @@ Each run produces three outputs:
 
 In **CI** (GitHub Actions, `.github/workflows/accessibility.yml`), the coverage matrix is posted to the
 job summary. The HTML report and matrix are uploaded as the `a11y-evidence` artifact and kept for 90 days.
-Run the workflow manually from the Actions tab and enter a `base_url` to test any site.
+Run the workflow manually from the Actions tab and enter `sites` (for example `computech`) to test a subset.
 
 ---
 
-## Target site and latest results
+## Target sites and latest results
 
-**Target:** https://broken-workshop.dequelabs.com/ is a single-page "Recipe Dashboard". Its states
-are the dashboard, the *Cook* modal, the *Edit* modal, and the Edit form with validation errors.
+**Run of 2026-10-28** (Chromium, Firefox and WebKit on macOS): **107 passed, 75 failed, 10 skipped.**
+The failures were triaged, and each one traces to a defect in the site, not a test artifact. The 10 skips are
+CompuTech's keyboard tests in Firefox; see [Browser strategy](#browser-strategy).
 
-**Run of 2026-10-27:** 74 passed, 15 failed (Chromium, Firefox and WebKit on macOS). Every failure was
-checked by hand and is a real defect, not a test artifact:
+### Broken Workshop: 74 passed, 15 failed
+
+A single-page "Recipe Dashboard". Its states are the dashboard, the *Cook* modal, the *Edit* modal,
+and the Edit form with validation errors.
 
 | SC | Defect | Caught by |
 |---|---|---|
@@ -80,9 +90,47 @@ checked by hand and is a real defect, not a test artifact:
 320px reflow, 200% zoom, text-spacing tolerance, form error identification, and focus return
 when a modal closes.
 
-**What automation can't settle here** (left for manual review): a `menubar` wrapping the logo, and
-focusable content behind the open modal (axe `aria-hidden-focus`, "incomplete"). Whether the alt text
-and labels are *accurate* also needs a person.
+### Dream Destination: 11 of 15 page tests failed
+
+| SC | Defect | Caught by |
+|---|---|---|
+| 1.3.1 | No `main` landmark | structure test |
+| 1.4.3 | Text below 4.5:1 contrast | axe |
+| 1.3.1 | `<ul>` with non-`<li>` children | axe |
+| 1.4.4, 1.4.10, 1.4.12 | Horizontal scrolling at 320px; text clipped at 200% zoom and with text-spacing overrides | adaptation tests |
+| 2.1.1 | "Swap stations" has `tabindex="-1"`, so the keyboard can't reach it | keyboard traversal |
+| 2.4.1 | No skip link | bypass-blocks test |
+| 2.4.7 | Station inputs and social links show no focus indicator (all 3 engines) | keyboard traversal |
+| 2.4.11 | Fixed cookie-consent banner covers 16 focused footer links | keyboard traversal |
+
+### Mars Commuter: 13 of 15 page tests failed
+
+| SC | Defect | Caught by |
+|---|---|---|
+| 1.1.1 | Image has `alt="icecream.jpg"` | content-quality check (axe passes it) |
+| 1.3.1 | No `main` landmark | structure test |
+| 3.1.1 | `<html>` has no `lang` | structure test, axe |
+| 1.1.1, 2.4.4, 4.1.2 | Images without alt; empty links; unnamed frame, select, and button; disallowed ARIA attributes | axe |
+| 1.4.1, 1.4.3, 2.5.8 | Links distinguished only by color; low contrast; targets under 24px | axe |
+| 1.4.4, 1.4.10, 1.4.12 | Fails reflow, zoom, and text spacing | adaptation tests |
+| 2.4.1, 2.4.7 | No skip link; controls with no focus indicator (all 3 engines) | keyboard tests |
+
+### Gefälscht CompuTech: 36 of 63 page tests failed
+
+| SC | Defect | Caught by |
+|---|---|---|
+| 1.3.1 | No landmarks on any page | structure test |
+| 2.4.2 | All 5 pages share the title `Gefälscht~~~Gefälscht CompuTech~~~` | title-uniqueness test |
+| 1.1.1, 2.4.4, 4.1.2 | Images without alt; empty links; unlabeled form fields | axe |
+| 1.4.1, 1.4.3, 2.5.8 | Links distinguished only by color; low contrast; targets under 24px | axe |
+| 1.4.10 | Every page scrolls horizontally at 320px | adaptation test |
+| 2.4.1 | No skip link | bypass-blocks test |
+| 2.4.7 | `outline: none` on navigation links, with no replacement indicator, on every page | keyboard traversal |
+
+**What passed:** main navigation and site search are consistent across all 5 pages (3.2.3).
+
+**What automation can't settle on any site** (left for manual review): whether alt text and labels are
+*accurate*, and the axe "incomplete" items listed in the coverage matrix.
 
 ---
 
@@ -135,13 +183,22 @@ known engine quirks:
 - WebKit on macOS uses Option+Tab, because Safari's Tab key skips links by default.
 - Headless Firefox keeps focus on the last element instead of moving to browser UI.
 - Some modal libraries render a 0×0 dialog wrapper, which Playwright reports as hidden.
+- Chromium's built-in focus style changes `outline-offset` even when the page sets `outline: none`. The
+  focus-visible check ignores outline properties unless an outline is actually drawn.
+- While focus is inside an iframe, the parent page only sees the `<iframe>`. Traversal keeps tabbing until
+  focus comes back out, and reports a trap only if it doesn't.
+
+CompuTech's server sends the wrong intermediate TLS certificate. Chromium and WebKit fetch the right
+one; Playwright's Firefox refuses the page (`SEC_ERROR_UNKNOWN_ISSUER`). Its Firefox keyboard tests are
+skipped with that reason rather than run with certificate checks turned off. A site declares this with
+`unsupportedBrowsers` in `data/pages.ts`.
 
 ---
 
 ## Adapting it to your app
 
-1. Point `BASE_URL` at your site.
-2. Replace `data/pages.ts` with every route and the UI states that matter: open menus, dialogs, error states.
+1. Replace the sites in `data/pages.ts` with yours. List every route and the UI states that matter
+   (open menus, dialogs, error states), and the shared regions to compare across pages (`consistentRegions`).
 3. Replace the selectors in `tests/forms` and `tests/components`. Copy those files for each form and widget.
 4. Delete the tab-order baselines in `tests/keyboard/*-snapshots/`. Then, after someone has walked each
    page's tab order by hand, generate new ones with `npm run update-tab-order`.
