@@ -20,6 +20,40 @@ export interface Finding {
 }
 
 const MAX_DETAILS = 8;
+
+/** Plain-language summaries for axe rules; axe's own help text is written for developers. */
+const AXE_PLAIN: Record<string, string> = {
+  'color-contrast': 'Text contrast is too low to read comfortably',
+  'image-alt': 'Images have no alt text',
+  'input-image-alt': 'Image buttons have no alt text',
+  label: 'Form fields have no label',
+  'select-name': 'Dropdowns have no label',
+  'link-name': 'Links have no text a screen reader can announce',
+  'button-name': 'Buttons have no name a screen reader can announce',
+  'frame-title': 'Embedded frames have no title',
+  'html-has-lang': 'The page does not declare its language',
+  'html-lang-valid': 'The page declares an invalid language code',
+  'document-title': 'The page has no title',
+  'aria-allowed-attr': 'ARIA attributes are used on elements that do not support them',
+  'aria-prohibited-attr': 'ARIA labels are used on elements that cannot be labelled',
+  'aria-hidden-focus': 'Hidden content can still receive keyboard focus',
+  list: 'A list contains items that are not list items',
+  listitem: 'List items are outside a list',
+  'link-in-text-block': 'Links inside text are distinguished only by colour',
+  'target-size': 'Click and tap targets are smaller than 24×24 px',
+  'nested-interactive': 'Controls are nested inside other controls',
+  'meta-viewport': 'The page blocks zooming',
+  'empty-heading': 'Headings are empty',
+};
+
+/** Shortens axe's per-element message where it is long and formulaic. */
+function compactIssue(rule: string, issue: string): string {
+  if (rule === 'color-contrast') {
+    const m = issue.match(/contrast of ([\d.]+) \(foreground color: (#\w+), background color: (#\w+), font size: [^(]*\((\d+(?:\.\d+)?px)\), font weight: (\w+)\)\. Expected contrast ratio of ([\d.:]+)/);
+    if (m) return `${m[1]}:1, ${m[2]} on ${m[3]} at ${m[4]} ${m[5]}; needs ${m[6]}`;
+  }
+  return issue.replace(/^Element /, '').replace(/\.$/, '');
+}
 export const TEST_ERROR = 'test error';
 /** Infrastructure failures: the check never produced a verdict, so no criterion is blamed. */
 const INFRA_ERROR = /(Test timeout of \d+ms exceeded|Target page, context or browser has been closed|^page\.(goto|evaluate|screenshot): |net::ERR_|SEC_ERROR_|Unacceptable TLS certificate)/;
@@ -71,11 +105,15 @@ function axeFindings(msg: string): Finding[] {
       const node = lines[j].match(/^\s+- (.*)$/);
       const rest = node?.[1].match(/^…and (\d+) more$/);
       if (rest) unlisted = Number(rest[1]);
-      else if (node) nodes.push(node[1]);
+      else if (node) {
+        // "selector — axe's message for that element"
+        const [target, ...issue] = node[1].split(' — ');
+        nodes.push(issue.length ? `${target} — ${compactIssue(rule, issue.join(' — '))}` : target);
+      }
     }
     out.push({
       scs: (scList.match(SC_ID) ?? []).filter((id) => KNOWN.has(id)),
-      what: help,
+      what: AXE_PLAIN[rule] ?? help,
       details: nodes.slice(0, MAX_DETAILS),
       more: Math.max(0, nodes.length - MAX_DETAILS) + unlisted,
       source: `axe ${rule} · ${impact}`,

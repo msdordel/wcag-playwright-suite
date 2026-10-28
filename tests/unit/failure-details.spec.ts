@@ -8,7 +8,7 @@ test('axe summary becomes one finding per rule, with criterion, nodes and rule l
     'Error: 2 WCAG violation(s) on Cart:',
     '  [serious] color-contrast (SC 1.4.3): Elements must meet minimum color contrast ratio thresholds',
     '    https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright',
-    '      - #header > p',
+    '      - #header > p — Element has insufficient color contrast of 2.17 (foreground color: #ffffff, background color: #a6a6a6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1',
     '      - #container > h2',
     '      - …and 9 more',
     '  [serious] link-name (SC 2.4.4, 4.1.2): Links must have discernible text',
@@ -18,8 +18,8 @@ test('axe summary becomes one finding per rule, with criterion, nodes and rule l
   const [contrast, link] = findingsFrom([msg]);
   expect(contrast).toMatchObject({
     scs: ['1.4.3'],
-    what: 'Elements must meet minimum color contrast ratio thresholds',
-    details: ['#header > p', '#container > h2'],
+    what: 'Text contrast is too low to read comfortably',
+    details: ['#header > p — 2.17:1, #ffffff on #a6a6a6 at 12px normal; needs 4.5:1', '#container > h2'],
     more: 9,
     source: 'axe color-contrast · serious',
     link: 'https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright',

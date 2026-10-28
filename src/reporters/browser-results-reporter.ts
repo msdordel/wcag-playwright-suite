@@ -251,6 +251,23 @@ const scStatus = (m: Map<string, Counts>, id = '') => {
 const cellText = (c?: Counts) => (c ? `✅ ${c.passed} · ❌ ${c.failed}${c.flaky ? ` · ⚠️ ${c.flaky}` : ''}${c.skipped ? ` · ⏭ ${c.skipped}` : ''}` : 'Not run');
 const failedScs = (cell: Cell) => [...new Set(cell.findings.flatMap((f) => f.scs))].sort(compareSc);
 const shortUrl = (u: string) => u.replace(/^https?:\/\//, '').replace(/\/$/, '');
+/** Failures grouped by test, in report order, so each test's page and title are shown once. */
+function byTest(failures: FailureRow[]): { test: string; url?: string; items: FailureRow[] }[] {
+  const groups: { test: string; url?: string; items: FailureRow[] }[] = [];
+  for (const f of failures) {
+    const last = groups.at(-1);
+    if (last?.test === f.test) last.items.push(f);
+    else groups.push({ test: f.test, url: f.url, items: [f] });
+  }
+  return groups;
+}
+
+/** "selector — what is wrong with it" → [selector, issue]. */
+const splitDetail = (x: string): [string, string?] => {
+  const i = x.indexOf(' — ');
+  return i < 0 ? [x] : [x.slice(0, i), x.slice(i + 3)];
+};
+
 const sumCounts = (cs: Counts[]) => cs.reduce((acc, c) => ({ passed: acc.passed + c.passed, failed: acc.failed + c.failed, flaky: acc.flaky + c.flaky, skipped: acc.skipped + c.skipped }), empty());
 
 /**
@@ -308,15 +325,24 @@ function markdown(d: Data): string {
     '## Failures explained',
     ...(d.failures.length
       ? [
-          ...head(['Test', 'Page', 'WCAG criterion', "What's wrong", 'Affected elements', 'How to fix', ...d.browsers.map(shortLabel)]),
-          ...d.failures.map(({ test, url, statuses, finding: f }) => {
-            const what = `${md(f.what)}${f.source ? ` _(${f.link ? `[${f.source}](${f.link})` : f.source})_` : ''}`;
-            const details = [...f.details.map((x) => `\`${md(x)}\``), ...(f.more ? [`…and ${f.more} more`] : [])].join('<br>');
-            const fix = adviceFor(f);
-            const fixText = `${md(fix.text)}${fix.link ? ` [More](${fix.link})` : ''}`;
-            return `| ${md(test)} | ${url ? `[${shortUrl(url)}](${url})` : '–'} | ${f.scs.length ? f.scs.map(scLink).join('<br>') : noScLabel(f)} | ${what} | ${details} | ${fixText} | ${d.browsers.map((b) => CHECK_TEXT[statuses.get(b)!]).join(' | ')} |`;
-          }),
-          '',
+          ...byTest(d.failures).flatMap(({ test, url, items }) => [
+            `### ${test}`,
+            ...(url ? [`Page: [${shortUrl(url)}](${url})`, ''] : ['']),
+            ...items.flatMap(({ statuses, finding: f }) => {
+              const fix = adviceFor(f);
+              return [
+                `- **${f.scs.length ? f.scs.map(scLink).join(', ') : noScLabel(f)}**: ${f.what}${f.source ? ` _(${f.link ? `[${f.source}](${f.link})` : f.source})_` : ''}`,
+                `  ${d.browsers.map((b) => `${shortLabel(b)}: ${CHECK_TEXT[statuses.get(b)!]}`).join(' · ')}`,
+                ...f.details.map((x) => {
+                  const [target, issue] = splitDetail(x);
+                  return `  - \`${target}\`${issue ? `: ${issue}` : ''}`;
+                }),
+                ...(f.more ? [`  - …and ${f.more} more`] : []),
+                `  - **How to fix:** ${fix.text}${fix.link ? ` [More](${fix.link})` : ''}`,
+              ];
+            }),
+            '',
+          ]),
           CHECK_NOTE,
         ]
       : ['None.']),
@@ -361,17 +387,37 @@ function html(d: Data): string {
     return url ? `<a href="${url}" aria-label="${esc(scTitle(id))}" title="${esc(scTitle(id))}">${esc(id)}</a>` : esc(id);
   };
   const pageLink = (url?: string) => (url ? `<a href="${esc(url)}">${esc(shortUrl(url))}</a>` : '–');
-  const checkCell = (s: CheckStatus) =>
-    `<td class="${s === 'failed' ? 's-failed' : s === 'passed' ? 's-passed' : s === 'flaky' ? 's-flaky' : 'na'}">${CHECK_TEXT[s]}</td>`;
-  const failureRow = ({ test, url, statuses, finding: f }: FailureRow) => {
-    const details = f.details.length
-      ? `<ul>${f.details.map((x) => `<li><code>${esc(x)}</code></li>`).join('')}${f.more ? `<li>…and ${f.more} more</li>` : ''}</ul>`
-      : '';
-    const source = f.source ? `<br><small>${f.link ? `<a href="${esc(f.link)}">${esc(f.source)}</a>` : esc(f.source)}</small>` : '';
+  const statusChip = (b: string, s: CheckStatus) =>
+    `<span class="chip ${s === 'failed' ? 's-failed' : s === 'passed' ? 's-passed' : s === 'flaky' ? 's-flaky' : 'na'}">${esc(shortLabel(b))}: ${CHECK_TEXT[s]}</span>`;
+  const problem = ({ statuses, finding: f }: FailureRow) => {
     const fix = adviceFor(f);
-    const fixCell = `${esc(fix.text)}${fix.link ? ` <a href="${esc(fix.link)}" aria-label="More about this fix">More</a>` : ''}`;
-    return `<tr><th scope="row">${esc(test)}</th><td>${pageLink(url)}</td><td>${f.scs.length ? f.scs.map(scLink).join('<br>') : esc(noScLabel(f))}</td><td>${esc(f.what)}${source}</td><td>${details}</td><td class="fix">${fixCell}</td>${d.browsers.map((b) => checkCell(statuses.get(b)!)).join('')}</tr>`;
+    const elements = f.details.length
+      ? `<ul class="els">${f.details
+          .map((x) => {
+            const [target, issue] = splitDetail(x);
+            return `<li><code>${esc(target)}</code>${issue ? `<span>${esc(issue)}</span>` : ''}</li>`;
+          })
+          .join('')}${f.more ? `<li class="na">…and ${f.more} more</li>` : ''}</ul>`
+      : '';
+    return `<li class="problem">
+<div class="p-head"><span class="crit">${f.scs.length ? f.scs.map(scLink).join(' · ') : esc(noScLabel(f))}</span><span class="chips">${d.browsers.map((b) => statusChip(b, statuses.get(b)!)).join('')}</span></div>
+<p class="p-what"><strong>${esc(f.what)}</strong>${f.source ? ` <small>${f.link ? `<a href="${esc(f.link)}">${esc(f.source)}</a>` : esc(f.source)}</small>` : ''}</p>
+${elements}
+<p class="p-fix"><span class="fix-label">How to fix</span> ${esc(fix.text)}${fix.link ? ` <a href="${esc(fix.link)}" aria-label="More about how to fix this">More</a>` : ''}</p>
+</li>`;
   };
+  const failureGroups = () =>
+    byTest(d.failures)
+      .map(
+        ({ test, url, items }, i) => `<section class="fx" aria-labelledby="fx-${i}">
+<h3 id="fx-${i}">${esc(test)}</h3>
+<p class="meta">${url ? `${pageLink(url)} · ` : ''}${items.length} problem${items.length === 1 ? '' : 's'}</p>
+<ul class="problems">
+${items.map(problem).join('\n')}
+</ul>
+</section>`,
+      )
+      .join('\n');
 
   return `<!doctype html>
 <html lang="en">
@@ -408,7 +454,23 @@ function html(d: Data): string {
   td ul { margin: 0; padding-left: 18px; }
   td a { overflow-wrap: anywhere; }
   code { font-size: 0.85em; white-space: pre-wrap; word-break: break-word; }
-  td.fix { background: color-mix(in srgb, var(--link) 6%, transparent); }
+  .fx { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 20px; }
+  .fx h3 { font-size: 1.05rem; margin: 0 0 2px; text-wrap: balance; }
+  .fx > .meta { margin: 0 0 8px; overflow-wrap: anywhere; }
+  .problems { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .problem { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; display: grid; gap: 6px; min-width: 0; }
+  .p-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; align-items: baseline; }
+  .crit { font-weight: 600; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .chip { font-size: 0.8em; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; }
+  .p-what, .p-fix { margin: 0; max-width: 75ch; }
+  .els { margin: 0; padding-left: 18px; display: grid; gap: 2px; }
+  .els li { overflow-wrap: anywhere; }
+  .els code { font-size: 0.85em; }
+  .els span { color: var(--muted); }
+  .els span::before { content: " — "; }
+  .p-fix { background: color-mix(in srgb, var(--link) 7%, transparent); border-radius: 4px; padding: 6px 8px; }
+  .fix-label { font-weight: 600; margin-right: 4px; }
   /* Charts: status colours (fixed in both modes) plus icon + text, since green/red alone fail colour-blind separation. */
   :root { --good: #0ca30c; --critical: #d03b3b; --skip: #8a897f; --track: #e1e0d9; }
   @media (prefers-color-scheme: dark) { :root { --track: #2c2c2a; } }
@@ -486,14 +548,8 @@ ${[...d.bySc]
 <h2 id="failures">Failures explained</h2>
 ${
   d.failures.length
-    ? `<div class="scroll" role="region" tabindex="0" aria-labelledby="failures"><table aria-labelledby="failures">
-<caption>One row per problem, with its status in each browser. A problem found in several browsers is listed once.</caption>
-<colgroup><col style="width:13%"><col style="width:9%"><col style="width:11%"><col style="width:13%"><col style="width:18%"><col style="width:21%">${d.browsers.map(() => `<col style="width:${Math.floor(15 / d.browsers.length)}%">`).join('')}</colgroup>
-<thead><tr><th scope="col">Test</th><th scope="col">Page</th><th scope="col">WCAG criterion</th><th scope="col">What's wrong</th><th scope="col">Affected elements</th><th scope="col">How to fix</th>${d.browsers.map((b) => `<th scope="col">${esc(shortLabel(b))}</th>`).join('')}</tr></thead>
-<tbody>
-${d.failures.map(failureRow).join('\n')}
-</tbody></table></div>
-<p class="meta">${CHECK_NOTE}</p>`
+    ? `<p class="meta">Grouped by test. Each problem shows its WCAG criterion, its status in each browser, the affected elements and how to fix it. A problem found in several browsers is listed once. ${CHECK_NOTE}</p>
+${failureGroups()}`
     : '<p>None.</p>'
 }
 

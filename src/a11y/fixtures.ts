@@ -82,7 +82,11 @@ function formatViolations(label: string, violations: Result[]): string {
   if (!violations.length) return '';
   const lines = violations.map((v) => {
     const wcag = v.tags.filter((t) => /^wcag\d{3,}$/.test(t)).map((t) => t.replace(/^wcag(\d)(\d)(\d+)$/, '$1.$2.$3'));
-    const shown = v.nodes.slice(0, 5).map((n) => `      - ${n.target.join(' ')}`);
+    // Each node keeps axe's own explanation (e.g. the measured contrast), which the rule's help text lacks.
+    const shown = v.nodes.slice(0, 5).map((n) => {
+      const issue = (n.any[0] ?? n.all[0] ?? n.none[0])?.message;
+      return `      - ${n.target.join(' ')}${issue ? ` — ${issue.replace(/\s+/g, ' ').trim()}` : ''}`;
+    });
     if (v.nodes.length > 5) shown.push(`      - …and ${v.nodes.length - 5} more`);
     const nodes = shown.join('\n');
     return `  [${v.impact}] ${v.id} (SC ${wcag.join(', ') || 'n/a'}): ${v.help}\n    ${v.helpUrl}\n${nodes}`;
