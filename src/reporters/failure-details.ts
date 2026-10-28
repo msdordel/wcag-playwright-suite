@@ -22,7 +22,7 @@ export interface Finding {
 const MAX_DETAILS = 8;
 export const TEST_ERROR = 'test error';
 /** Infrastructure failures: the check never produced a verdict, so no criterion is blamed. */
-const INFRA_ERROR = /^(Test timeout of \d+ms exceeded|.*Target page, context or browser has been closed|page\.(goto|evaluate|screenshot): |.*net::ERR_|.*SEC_ERROR_)/;
+const INFRA_ERROR = /(Test timeout of \d+ms exceeded|Target page, context or browser has been closed|^page\.(goto|evaluate|screenshot): |net::ERR_|SEC_ERROR_|Unacceptable TLS certificate)/;
 const SC_ID = /\b\d\.\d\.\d{1,2}\b/g;
 const KNOWN = new Set(CRITERIA.map((c) => c.id));
 

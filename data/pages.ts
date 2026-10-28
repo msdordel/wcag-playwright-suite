@@ -95,9 +95,10 @@ export const ALL_SITES: Site[] = [
     name: 'Gefälscht CompuTech',
     origin: 'https://webtestingcourse.dequecloud.com',
     unsupportedBrowsers: {
-      // The server sends the wrong intermediate certificate. Chromium and WebKit fetch the right one;
-      // Playwright's Firefox rejects the page with SEC_ERROR_UNKNOWN_ISSUER.
+      // The server sends the wrong intermediate certificate. Chromium (and WebKit on macOS) fetch the
+      // right one; Playwright's Firefox and WebKit on Linux reject the page.
       firefox: 'server sends the wrong TLS intermediate certificate (SEC_ERROR_UNKNOWN_ISSUER)',
+      ...(process.platform === 'linux' && { webkit: 'server sends the wrong TLS intermediate certificate (Unacceptable TLS certificate on Linux)' }),
     },
     pages: [
       { name: 'Home', path: '/', critical: true },

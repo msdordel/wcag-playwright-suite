@@ -73,7 +73,13 @@ test('a message with no criterion falls back to the test tags; content quality h
 });
 
 test('timeouts and closed pages are test errors, not WCAG failures', () => {
-  for (const msg of ['Test timeout of 30000ms exceeded.', 'Error: page.goto: SEC_ERROR_UNKNOWN_ISSUER', 'Page.evaluate: Target page, context or browser has been closed']) {
+  for (const msg of [
+    'Test timeout of 30000ms exceeded.',
+    'Error: Locator.evaluate: Test timeout of 30000ms exceeded.',
+    'Error: page.goto: SEC_ERROR_UNKNOWN_ISSUER',
+    'Error: page.goto: Unacceptable TLS certificate',
+    'Page.evaluate: Target page, context or browser has been closed',
+  ]) {
     expect(findingsFrom([msg], ['1.3.1'])[0]).toMatchObject({ scs: [], source: 'test error' });
   }
 });

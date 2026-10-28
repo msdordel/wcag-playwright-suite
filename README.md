@@ -67,9 +67,10 @@ Run the workflow manually from the Actions tab and enter `sites` (for example `c
 
 ## Target sites and latest results
 
-**Run of 2026-10-28** (Chromium, Firefox and WebKit on macOS): **107 passed, 75 failed, 10 skipped.**
-The failures were triaged, and each one traces to a defect in the site, not a test artifact. The 10 skips are
-CompuTech's keyboard tests in Firefox; see [Browser strategy](#browser-strategy).
+**Run of 2026-10-28** (Chromium, Firefox and WebKit on macOS): **120 passed, 75 failed, 10 skipped**
+(the passes include 50 browserless unit tests). The failures were triaged, and each one traces to a defect
+in the site, not a test artifact. The 10 skips are CompuTech's keyboard tests in Firefox; on Linux CI,
+WebKit skips them too. See [Browser strategy](#browser-strategy).
 
 ### Broken Workshop: 74 passed, 15 failed
 
@@ -189,9 +190,10 @@ known engine quirks:
 - While focus is inside an iframe, the parent page only sees the `<iframe>`. Traversal keeps tabbing until
   focus comes back out, and reports a trap only if it doesn't.
 
-CompuTech's server sends the wrong intermediate TLS certificate. Chromium and WebKit fetch the right
-one; Playwright's Firefox refuses the page (`SEC_ERROR_UNKNOWN_ISSUER`). Its Firefox keyboard tests are
-skipped with that reason rather than run with certificate checks turned off. A site declares this with
+CompuTech's server sends the wrong intermediate TLS certificate. Chromium, and WebKit on macOS, fetch
+the right one; Playwright's Firefox (`SEC_ERROR_UNKNOWN_ISSUER`) and WebKit on Linux ("Unacceptable TLS
+certificate") refuse the page. Those keyboard tests are skipped with that reason rather than run with
+certificate checks turned off. A site declares this with
 `unsupportedBrowsers` in `data/pages.ts`.
 
 ---

@@ -18,6 +18,8 @@ for (const p of PAGES) {
     async ({ page, browserName }, testInfo) => {
       const unsupported = unsupportedReason(p, browserName);
       test.skip(!!unsupported, unsupported);
+      // Two screenshots per focus stop; pages with 100+ stops need more than 30s on CI runners.
+      test.slow();
       await gotoStable(page, p.path);
       const startUrl = page.url();
       const popups: Page[] = [];
