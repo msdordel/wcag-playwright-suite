@@ -29,7 +29,7 @@ jobs:
           WCAG_TARGET: 2.2-AA
       - name: Publish coverage matrix to job summary
         if: always()
-        run: cat reports/wcag-coverage.md >> "$GITHUB_STEP_SUMMARY"
+        run: cat reports/browser-results.md reports/wcag-coverage.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

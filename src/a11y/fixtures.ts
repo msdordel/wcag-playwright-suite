@@ -70,8 +70,11 @@ export { expect };
 
 /** Navigate and wait until the page is settled enough to audit. */
 export async function gotoStable(page: Page, path: string) {
-  await page.goto(path, { waitUntil: 'load' });
-  await page.waitForLoadState('networkidle').catch(() => {});
+  await page.goto(path, { waitUntil: 'domcontentloaded' });
+  // Both waits are capped: third-party embeds (video players, social widgets) can delay the load
+  // event or keep the network busy indefinitely, and the page is testable well before they finish.
+  await page.waitForLoadState('load', { timeout: 15_000 }).catch(() => {});
+  await page.waitForLoadState('networkidle', { timeout: 5_000 }).catch(() => {});
   await page.evaluate(() => document.fonts.ready);
 }
 
@@ -79,7 +82,9 @@ function formatViolations(label: string, violations: Result[]): string {
   if (!violations.length) return '';
   const lines = violations.map((v) => {
     const wcag = v.tags.filter((t) => /^wcag\d{3,}$/.test(t)).map((t) => t.replace(/^wcag(\d)(\d)(\d+)$/, '$1.$2.$3'));
-    const nodes = v.nodes.slice(0, 5).map((n) => `      - ${n.target.join(' ')}`).join('\n');
+    const shown = v.nodes.slice(0, 5).map((n) => `      - ${n.target.join(' ')}`);
+    if (v.nodes.length > 5) shown.push(`      - …and ${v.nodes.length - 5} more`);
+    const nodes = shown.join('\n');
     return `  [${v.impact}] ${v.id} (SC ${wcag.join(', ') || 'n/a'}): ${v.help}\n    ${v.helpUrl}\n${nodes}`;
   });
   return `${violations.length} WCAG violation(s) on ${label}:\n${lines.join('\n')}`;

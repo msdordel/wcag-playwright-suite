@@ -16,53 +16,55 @@ async function expectErrorAssociated(field: Locator, text: RegExp) {
   }
 }
 
-// Behaviour tests for one specific site. Skipped when SITES excludes it.
-test.skip(!hasSite('workshop'), 'Broken Workshop not selected in SITES');
+test.describe('Broken Workshop', () => {
+  // Behaviour tests for one specific site. Skipped when SITES excludes it.
+  test.skip(!hasSite('workshop'), 'Broken Workshop not selected in SITES');
 
-test.beforeEach(async ({ page }) => {
-  await gotoStable(page, WORKSHOP_URL);
-  await openEditModal(page);
-});
-
-test('every field has a meaningful accessible name', sc('1.3.1', '3.3.2', '4.1.2'), async ({ page }) => {
-  const dialog = page.getByRole('dialog');
-  for (const field of await dialog.locator('input:not([type=hidden]), select, textarea').all()) {
-    await expect.soft(field, '4.1.2 field has no accessible name').toHaveAccessibleName(/\w/);
-  }
-});
-
-test('cook form fields have meaningful accessible names', sc('1.3.1', '3.3.2', '4.1.2'), async ({ page }) => {
-  // axe misses this one: the field has a <label>, but it contains only whitespace.
-  await page.getByRole('button', { name: 'Cancel' }).click();
-  await openCookModal(page);
-  for (const field of await page.getByRole('dialog').locator('input:not([type=hidden]), select, textarea').all()) {
-    await expect.soft(field, '4.1.2 field has no accessible name').toHaveAccessibleName(/\w/);
-  }
-});
-
-test('empty required field is identified on save', sc('3.3.1', '4.1.2'), async ({ page }) => {
-  const field = page.getByRole('textbox', { name: /ingredient/i }).first();
-  await field.fill('');
-  await page.getByRole('button', { name: 'Save' }).click();
-
-  await expect(page.getByText('Ingredient must not be empty')).toBeVisible();
-  await expect.soft(field, '3.3.1 invalid field must expose aria-invalid="true"').toHaveAttribute('aria-invalid', 'true');
-  await expectErrorAssociated(field, /must not be empty/i);
-});
-
-test('focus moves to the error after a failed save', sc('3.3.1', '2.4.3'), async ({ page }) => {
-  await page.getByRole('textbox', { name: /ingredient/i }).first().fill('');
-  await page.getByRole('button', { name: 'Save' }).click();
-
-  const focusOk = await page.evaluate(() => {
-    const a = document.activeElement;
-    return !!a && (a.getAttribute('aria-invalid') === 'true' || a.matches('input, textarea') || !!a.closest('[role="alert"]'));
+  test.beforeEach(async ({ page }) => {
+    await gotoStable(page, WORKSHOP_URL);
+    await openEditModal(page);
   });
-  expect(focusOk, '3.3.1 focus did not move to the invalid field after a failed save').toBe(true);
-});
 
-test('form in error state has no axe violations', sc('1.3.1', '3.3.1', '4.1.2'), async ({ page, axe }) => {
-  await page.getByRole('textbox', { name: /ingredient/i }).first().fill('');
-  await page.getByRole('button', { name: 'Save' }).click();
-  await axe({ include: ['.RecipeModal'], label: 'edit form – errors' });
+  test('every field has a meaningful accessible name', sc('1.3.1', '3.3.2', '4.1.2'), async ({ page }) => {
+    const dialog = page.getByRole('dialog');
+    for (const field of await dialog.locator('input:not([type=hidden]), select, textarea').all()) {
+      await expect.soft(field, '4.1.2 field has no accessible name').toHaveAccessibleName(/\w/);
+    }
+  });
+
+  test('cook form fields have meaningful accessible names', sc('1.3.1', '3.3.2', '4.1.2'), async ({ page }) => {
+    // axe misses this one: the field has a <label>, but it contains only whitespace.
+    await page.getByRole('button', { name: 'Cancel' }).click();
+    await openCookModal(page);
+    for (const field of await page.getByRole('dialog').locator('input:not([type=hidden]), select, textarea').all()) {
+      await expect.soft(field, '4.1.2 field has no accessible name').toHaveAccessibleName(/\w/);
+    }
+  });
+
+  test('empty required field is identified on save', sc('3.3.1', '4.1.2'), async ({ page }) => {
+    const field = page.getByRole('textbox', { name: /ingredient/i }).first();
+    await field.fill('');
+    await page.getByRole('button', { name: 'Save' }).click();
+
+    await expect(page.getByText('Ingredient must not be empty'), '3.3.1 Error Identification: no error message shown for the empty field').toBeVisible();
+    await expect.soft(field, '3.3.1 invalid field must expose aria-invalid="true"').toHaveAttribute('aria-invalid', 'true');
+    await expectErrorAssociated(field, /must not be empty/i);
+  });
+
+  test('focus moves to the error after a failed save', sc('3.3.1', '2.4.3'), async ({ page }) => {
+    await page.getByRole('textbox', { name: /ingredient/i }).first().fill('');
+    await page.getByRole('button', { name: 'Save' }).click();
+
+    const focusOk = await page.evaluate(() => {
+      const a = document.activeElement;
+      return !!a && (a.getAttribute('aria-invalid') === 'true' || a.matches('input, textarea') || !!a.closest('[role="alert"]'));
+    });
+    expect(focusOk, '3.3.1 focus did not move to the invalid field after a failed save').toBe(true);
+  });
+
+  test('form in error state has no axe violations', sc('1.3.1', '3.3.1', '4.1.2'), async ({ page, axe }) => {
+    await page.getByRole('textbox', { name: /ingredient/i }).first().fill('');
+    await page.getByRole('button', { name: 'Save' }).click();
+    await axe({ include: ['.RecipeModal'], label: 'edit form – errors' });
+  });
 });

@@ -33,7 +33,7 @@ for (const p of PAGES) {
         },
       });
 
-      expect(stops.length, 'page has no keyboard-focusable elements').toBeGreaterThan(0);
+      expect(stops.length, '2.1.1 Keyboard: page has no keyboard-focusable elements').toBeGreaterThan(0);
       if (exhausted) testInfo.annotations.push({ type: 'warning', description: 'Hit stop limit; traversal incomplete' });
 
       expect.soft(trappedAt && describe(trappedAt), '2.1.2 No Keyboard Trap: focus cycled without leaving').toBeNull();

@@ -14,14 +14,14 @@ for (const p of PAGES) {
     await page.keyboard.press(tabKey(page));
 
     const skip = page.locator(':focus');
-    await expect(skip, 'first Tab stop must be a skip link').toHaveAccessibleName(/skip to (main )?content/i);
-    await expect(skip, 'skip link must become visible when focused').toBeInViewport();
+    await expect(skip, '2.4.1 Bypass Blocks: first Tab stop is not a "skip to content" link').toHaveAccessibleName(/skip to (main )?content/i);
+    await expect(skip, '2.4.7 Focus Visible: skip link stays off-screen when focused').toBeInViewport();
 
     await page.keyboard.press('Enter');
     const focusInMain = await page.evaluate(() => {
       const main = document.querySelector('main, [role="main"]');
       return !!main && (main === document.activeElement || main.contains(document.activeElement));
     });
-    expect(focusInMain, 'activating skip link must move focus into <main> (main may need tabindex="-1")').toBe(true);
+    expect(focusInMain, '2.4.1 Bypass Blocks: activating the skip link does not move focus into <main> (main may need tabindex="-1")').toBe(true);
   });
 }

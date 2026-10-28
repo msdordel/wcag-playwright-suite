@@ -12,25 +12,25 @@ for (const p of PAGES) {
       // 320px wide = 1280px viewport at 400% zoom, which is the SC's reference case.
       await page.setViewportSize({ width: 320, height: 256 });
       await gotoStable(page, p.path);
-      expect(await horizontalOverflow(page), 'content requires horizontal scrolling at 320px').toEqual([]);
+      expect(await horizontalOverflow(page), '1.4.10 Reflow: content scrolls horizontally at 320 CSS px').toEqual([]);
     });
 
     test('1.4.4 usable at 200% zoom', sc('1.4.4'), async ({ page }) => {
       // Page zoom: 200% of a 1280px window = 640 CSS px.
       await page.setViewportSize({ width: 640, height: 400 });
       await gotoStable(page, p.path);
-      expect.soft(await clippedText(page), 'text clipped at 200% page zoom').toEqual([]);
+      expect.soft(await clippedText(page), '1.4.4 Resize Text: text clipped at 200% page zoom').toEqual([]);
 
       // Text-only zoom: root font size doubled.
       await page.setViewportSize({ width: 1280, height: 800 });
       await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });
-      expect.soft(await clippedText(page), 'text clipped at 200% text-only zoom').toEqual([]);
+      expect.soft(await clippedText(page), '1.4.4 Resize Text: text clipped at 200% text-only zoom').toEqual([]);
     });
 
     test('1.4.12 tolerates text-spacing overrides', sc('1.4.12'), async ({ page }) => {
       await gotoStable(page, p.path);
       await page.addStyleTag({ content: TEXT_SPACING_CSS });
-      expect(await clippedText(page), 'text clipped after applying 1.4.12 spacing').toEqual([]);
+      expect(await clippedText(page), '1.4.12 Text Spacing: text clipped after increasing line, letter, word and paragraph spacing').toEqual([]);
     });
 
     test('1.3.4 works in both orientations', sc('1.3.4'), async ({ page }) => {
@@ -39,7 +39,7 @@ for (const p of PAGES) {
         await gotoStable(page, p.path);
         // Rendered text, not body visibility: absolutely positioned layouts can leave <body> at 0px tall.
         await expect.poll(() => page.evaluate(() => document.body.innerText.trim().length), '1.3.4 page renders no content in this orientation').toBeGreaterThan(0);
-        await expect(page.getByText(/rotate (your )?(device|screen)/i)).toHaveCount(0);
+        await expect(page.getByText(/rotate (your )?(device|screen)/i), '1.3.4 Orientation: page asks the user to rotate the device').toHaveCount(0);
       }
     });
   });

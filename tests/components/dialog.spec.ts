@@ -13,49 +13,51 @@ const dialogContent = (page: import('@playwright/test').Page) => page.getByRole(
  */
 const openTrigger = (page: import('@playwright/test').Page) => page.getByRole('button', { name: 'Cook Chocolate Cake' });
 
-// Behaviour tests for one specific site. Skipped when SITES excludes it.
-test.skip(!hasSite('workshop'), 'Broken Workshop not selected in SITES');
+test.describe('Broken Workshop', () => {
+  // Behaviour tests for one specific site. Skipped when SITES excludes it.
+  test.skip(!hasSite('workshop'), 'Broken Workshop not selected in SITES');
 
-test.beforeEach(async ({ page }) => {
-  await gotoStable(page, WORKSHOP_URL);
-  await openTrigger(page).focus();
-  await page.keyboard.press('Enter');
-});
+  test.beforeEach(async ({ page }) => {
+    await gotoStable(page, WORKSHOP_URL);
+    await openTrigger(page).focus();
+    await page.keyboard.press('Enter');
+  });
 
-test('dialog is named, modal and receives focus', sc('4.1.2', '2.4.3'), async ({ page }) => {
-  const dialog = page.getByRole('dialog');
-  await expect(dialogContent(page)).toBeVisible();
-  await expect.soft(dialog, '4.1.2 dialog needs an accessible name (aria-labelledby → heading)').toHaveAccessibleName(/\S/);
-  const isModal = await dialog.evaluate((d) => d.getAttribute('aria-modal') === 'true' || (d as HTMLDialogElement).matches?.(':modal'));
-  expect.soft(isModal, '4.1.2 dialog must be aria-modal or opened with showModal()').toBe(true);
-  expect(await dialog.evaluate((d) => d.contains(document.activeElement)), '2.4.3 focus must move into the dialog').toBe(true);
-});
+  test('dialog is named, modal and receives focus', sc('4.1.2', '2.4.3'), async ({ page }) => {
+    const dialog = page.getByRole('dialog');
+    await expect(dialogContent(page), '2.1.1 Keyboard: Enter on the Cook button does not open the dialog').toBeVisible();
+    await expect.soft(dialog, '4.1.2 dialog needs an accessible name (aria-labelledby → heading)').toHaveAccessibleName(/\S/);
+    const isModal = await dialog.evaluate((d) => d.getAttribute('aria-modal') === 'true' || (d as HTMLDialogElement).matches?.(':modal'));
+    expect.soft(isModal, '4.1.2 dialog must be aria-modal or opened with showModal()').toBe(true);
+    expect(await dialog.evaluate((d) => d.contains(document.activeElement)), '2.4.3 focus must move into the dialog').toBe(true);
+  });
 
-test('focus stays inside while open and Escape exits', sc('2.1.2', '2.4.3'), async ({ page }) => {
-  const dialog = page.getByRole('dialog');
-  for (let i = 0; i < 15; i++) {
-    await page.keyboard.press(tabKey(page, { reverse: i % 4 === 3 }));
-    expect(await dialog.evaluate((d) => d.contains(document.activeElement)), `2.4.3 focus escaped modal on press ${i + 1}`).toBe(true);
-  }
-  await page.keyboard.press('Escape');
-  await expect(dialog).toBeHidden();
-});
+  test('focus stays inside while open and Escape exits', sc('2.1.2', '2.4.3'), async ({ page }) => {
+    const dialog = page.getByRole('dialog');
+    for (let i = 0; i < 15; i++) {
+      await page.keyboard.press(tabKey(page, { reverse: i % 4 === 3 }));
+      expect(await dialog.evaluate((d) => d.contains(document.activeElement)), `2.4.3 focus escaped modal on press ${i + 1}`).toBe(true);
+    }
+    await page.keyboard.press('Escape');
+    await expect(dialog, '2.1.2 No Keyboard Trap: Escape does not close the dialog').toBeHidden();
+  });
 
-test('closing returns focus to the trigger', sc('2.4.3'), async ({ page }) => {
-  await page.keyboard.press('Escape');
-  await expect(openTrigger(page), '2.4.3 focus must return to the control that opened the dialog').toBeFocused();
-});
+  test('closing returns focus to the trigger', sc('2.4.3'), async ({ page }) => {
+    await page.keyboard.press('Escape');
+    await expect(openTrigger(page), '2.4.3 focus must return to the control that opened the dialog').toBeFocused();
+  });
 
-test('Edit control is a keyboard-operable button', sc('2.1.1', '4.1.2'), async ({ page }) => {
-  await page.keyboard.press('Escape');
-  const edit = page.getByTestId('edit-button').first();
-  const control = edit.locator('xpath=ancestor-or-self::*[@tabindex or self::button or self::a][1]');
-  await expect.soft(control, '4.1.2 Edit must expose role=button').toHaveRole('button');
-  await control.focus();
-  await page.keyboard.press('Enter');
-  await expect(dialogContent(page), '2.1.1 Edit must open with Enter').toBeVisible();
-});
+  test('Edit control is a keyboard-operable button', sc('2.1.1', '4.1.2'), async ({ page }) => {
+    await page.keyboard.press('Escape');
+    const edit = page.getByTestId('edit-button').first();
+    const control = edit.locator('xpath=ancestor-or-self::*[@tabindex or self::button or self::a][1]');
+    await expect.soft(control, '4.1.2 Edit must expose role=button').toHaveRole('button');
+    await control.focus();
+    await page.keyboard.press('Enter');
+    await expect(dialogContent(page), '2.1.1 Edit must open with Enter').toBeVisible();
+  });
 
-test('open dialog has no axe violations', sc('1.3.1', '4.1.2', '1.4.3'), async ({ page, axe }) => {
-  await axe({ include: ['[role="dialog"], dialog'], label: 'cook dialog' });
+  test('open dialog has no axe violations', sc('1.3.1', '4.1.2', '1.4.3'), async ({ page, axe }) => {
+    await axe({ include: ['[role="dialog"], dialog'], label: 'cook dialog' });
+  });
 });

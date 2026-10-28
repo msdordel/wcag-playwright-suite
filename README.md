@@ -50,16 +50,17 @@ and which criteria the coverage report lists.
 
 ## Viewing results
 
-Each run produces three outputs:
+Each run produces four outputs:
 
 | Output | How to open | Use it for |
 |---|---|---|
 | **HTML report** | `npm run report` (serves `playwright-report/` at http://localhost:9323) | Triage. Filter by **Failed**, open a test for its screenshot, step-by-step trace, and `axe … .json` attachment (every violation with selectors). Search `@sc-4.1.2` to see all evidence for a criterion. |
+| **Results by browser** | `reports/browser-results.html` (open in a browser; also `.md` and `.json`) | Where it fails, why, and how to fix it. Pass/fail charts and tables by browser, by site and by WCAG criterion. **Failures explained** has one row per problem: the page, the WCAG criterion (linked to W3C's explanation), what's wrong, the affected elements, **how to fix it**, and its status in each browser. Then every test × browser. The `.md` copy has the same tables without the charts. |
 | **WCAG coverage matrix** | `reports/wcag-coverage.md` (also `.json`) | Audit and compliance. One row for each A/AA criterion: tests run, pass/fail, and whether a manual audit is still required. It also lists axe "incomplete" items queued for human review. |
 | **Console** | Terminal output | Each failure message starts with the SC id, e.g. `4.1.2 dialog needs an accessible name`. |
 
-In **CI** (GitHub Actions, `.github/workflows/accessibility.yml`), the coverage matrix is posted to the
-job summary. The HTML report and matrix are uploaded as the `a11y-evidence` artifact and kept for 90 days.
+In **CI** (GitHub Actions, `.github/workflows/accessibility.yml`), the browser results and coverage matrix are
+posted to the job summary. The HTML report and both reports are uploaded as the `a11y-evidence` artifact and kept for 90 days.
 Run the workflow manually from the Actions tab and enter `sites` (for example `computech`) to test a subset.
 
 ---
@@ -172,7 +173,7 @@ src/a11y/keyboard.ts          tab traversal, focus-indicator diff, obscured chec
 src/a11y/adaptation.ts        reflow overflow, clipped-text detection, 1.4.12 CSS
 src/a11y/content-quality.ts   placeholder / meaningless-name heuristics
 src/a11y/waivers.ts           waiver register
-src/reporters/                → reports/wcag-coverage.{md,json}
+src/reporters/                → reports/wcag-coverage.{md,json}, reports/browser-results.{html,md,json}
 ```
 
 ### Browser strategy

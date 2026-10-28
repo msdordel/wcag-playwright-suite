@@ -50,12 +50,12 @@ for (const site of SITES) {
 for (const p of PAGES) {
   test(`3.1.1 page language is declared and valid: ${p.name}`, sc('3.1.1'), async ({ page }) => {
     await gotoStable(page, p.path);
-    await expect(page.locator('html'), `3.1.1 ${p.name}`).toHaveAttribute('lang', /^[a-z]{2,3}(-[A-Za-z0-9]+)*$/);
+    await expect(page.locator('html'), `3.1.1 Language of Page: <html lang> is missing or not a valid language code on ${p.name}`).toHaveAttribute('lang', /^[a-z]{2,3}(-[A-Za-z0-9]+)*$/);
   });
 
   test(`1.3.1 exposes a main landmark and a level-1 heading: ${p.name}`, sc('1.3.1', '2.4.6'), async ({ page }) => {
     await gotoStable(page, p.path);
-    await expect.soft(page.getByRole('main'), `1.3.1 ${p.name}: exactly one main landmark`).toHaveCount(1);
-    await expect.soft(page.getByRole('heading', { level: 1 }), `1.3.1 ${p.name}: has an h1`).not.toHaveCount(0);
+    await expect.soft(page.getByRole('main'), `1.3.1 Info and Relationships: page must have exactly one main landmark (${p.name})`).toHaveCount(1);
+    await expect.soft(page.getByRole('heading', { level: 1 }), `1.3.1 Info and Relationships: page has no level-1 heading (${p.name})`).not.toHaveCount(0);
   });
 }

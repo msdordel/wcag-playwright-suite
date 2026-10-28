@@ -20,6 +20,7 @@ export default defineConfig({
     ['list'],
     ['html', { open: 'never' }],
     ['./src/reporters/wcag-coverage-reporter.ts', { outputDir: 'reports' }],
+    ['./src/reporters/browser-results-reporter.ts', { outputDir: 'reports' }],
   ],
   expect: { timeout: 5_000 },
   // No {platform} in the path: tab-order baselines are per browser, and must match on macOS and Linux CI.
