@@ -1,0 +1,158 @@
+Page title: Gefälscht~~~Gefälscht CompuTech~~~
+
+## Headings (10)
+- h1 Gefälscht
+- h1 Laptops & Notebooks
+- h2 Laptops & Notebooks
+- h2 Our Location. Let us show it to you
+- h2 Support
+- h2 Laptops & Notebooks
+- h2 Desktops
+- h2 Test Course Materials
+- h2 Cart
+- h2 Support
+
+## Landmarks (1)
+- form landmark
+
+## Links (32)
+- Gefälscht
+- Home
+- Laptops & Notebooks
+- Desktops
+- Cart
+- Support
+- Contact
+- Wikipedia
+- ⚠ no name
+- ⚠ no name
+- ⚠ no name
+- ⚠ no name
+- ⚠ no name
+- ⚠ no name
+- Fregatte 17
+- Abgenutzt 15
+- Backstein 21
+- Continue Reading »
+- Continue Reading »
+- Fregatte 17
+- Abgenutzt 15
+- Backstein 21
+- Beschissen 750
+- Rindviecher 1000
+- Verrottet 875
+- Dragon Cheat Sheet
+- JAWS Cheat Sheet
+- Sample Test Case Template
+- Sample Issue Template
+- Lookee here! Just in case you didn't notice the 'Cart' link in the global navigation, you can also find a link to your cart down here, too. Neat, huh?
+- Get answers to all of your favorite support questions here, including such gems as "Where is my 'Any' key?" and "How many pins does a sixteen pin cable have?"
+- Gefälscht
+
+## Form fields (1)
+- ⚠ no name, edit, Search the site…
+
+## Reading order (browse mode, down arrow)
+heading level 1, Gefälscht
+Gefälscht CompuTech
+Tel: 703-555-1212 | Mail: info@deque.com
+form landmark
+  ⚠ no name, edit, Search the site…
+  GO, button
+list with 6 items
+  Home, link
+  Laptops & Notebooks, link
+  Desktops, link
+  Cart, link
+  Support, link
+  Contact, link
+heading level 1, Laptops & Notebooks
+⚠ no description, graphic
+A laptop, also called a notebook, is a personal computer for mobile use. A laptop integrates most of the typical components of a desktop computer, including a display, a keyboard, a pointing device (a touchpad, also known as a trackpad, and/or a pointing stick) and speakers into a single unit. A laptop is powered by mains electricity via an AC adapter, and can be used away from an outlet using a rechargeable battery. (
+Wikipedia, link
+)
+table
+  cell
+  Fregatte 17 We had so many superlatives lined up to describe this classically-styled, ultra portable, budget-friendly, high performance machine that we couldn't contain ourselves. Genuine Windows 7 Home Premium 64-bit 3GB DDR3 System Memory 500GB 5400RPM Hard Drive 802.11b/g/n WLAN Intel(R) Pentium(R) B950 Processor Up to 5.50 hours of battery life, cell
+  cell
+  cell
+  Abgenutzt 15 Power and portability all in one. The battery on this one almost lasts long enough for it to be useful as a laptop but believe us, you'll be tethered to a power cord like an astronaut on a space walk. Genuine Windows 7 Home Premium 64-bit Intel Core i3-370M + Intel(R) HD Graphics 4GB DDR3 System Memory 500GB 5400RPM Hard Drive Webcam with Integrated Digital Microphone 802.11b/g/n WLAN Up to 4.25 hours of battery life, cell
+  cell
+  cell
+  Backstein 21 Look at this little thing, ain't it cute? All small and portable with its tiny screen you can barely read and keyboard so small your fingers cramp when using it, you'll wonder why you didn't get a bigger computer. Genuine Windows 7 Home Premium 64-bit 2nd generation Intel(R) Core(TM) i3-2330M 4GB DDR3 System Memory 640GB 5400RPM Hard Drive Webcam with Integrated Digital Microphone 802.11b/g/n WLAN Up to 4.25 hours of battery life, cell
+  cell
+heading level 2, Laptops & Notebooks
+list with 3 items
+  Fregatte 17, link
+  Abgenutzt 15, link
+  Backstein 21, link
+heading level 2, Our Location. Let us show it to you
+Our opulently appointed corporate offices are located in the finest strip mall within miles. We think you'll agree that our place is the place among places when you think of a place that does our sort of thing.
+Continue Reading », link
+list with 1 items
+  heading level 2, Support
+  ⚠ no description, graphic
+  What the heck is that thing? If you don't know, maybe you should leave the hardware installations to us. We can install everything short of a carbureted Chevy 427 in your computer.
+  Continue Reading », link
+heading level 2, Laptops & Notebooks
+list with 3 items
+  Fregatte 17, link
+  Abgenutzt 15, link
+  Backstein 21, link
+heading level 2, Desktops
+list with 3 items
+  Beschissen 750, link
+  Rindviecher 1000, link
+  Verrottet 875, link
+heading level 2, Test Course Materials
+list with 5 items
+  Dragon Cheat Sheet, link
+  JAWS Cheat Sheet, link
+  Sample Test Case Template, link
+  Sample Issue Template, link
+  Photo Credits
+heading level 2, Cart
+list with 1 items
+  Lookee here! Just in case you didn't notice the 'Cart' link in the global navigation, you can also find a link to your cart down here, too. Neat, huh?, link
+heading level 2, Support
+list with 1 items
+  Get answers to all of your favorite support questions here, including such gems as "Where is my 'Any' key?" and "How many pins does a sixteen pin cable have?", link
+Copyright © 2026 - All Rights Reserved -
+Gefälscht, link
+Gefälscht CompuTech
+
+## Tab order (what each Tab stop announces)
+1. Gefälscht, link
+2. ⚠ no name, edit
+3. GO, button
+4. Home, link
+5. Laptops & Notebooks, link
+6. Desktops, link
+7. Cart, link
+8. Support, link
+9. Contact, link
+10. Wikipedia, link
+11. ⚠ no name, link
+12. ⚠ no name, link
+13. ⚠ no name, link
+14. ⚠ no name, link
+15. ⚠ no name, link
+16. ⚠ no name, link
+17. Fregatte 17, link
+18. Abgenutzt 15, link
+19. Backstein 21, link
+20. Continue Reading », link
+21. Continue Reading », link
+22. Fregatte 17, link
+23. Abgenutzt 15, link
+24. Backstein 21, link
+25. Beschissen 750, link
+26. Rindviecher 1000, link
+27. Verrottet 875, link
+28. Dragon Cheat Sheet, link
+29. JAWS Cheat Sheet, link
+30. Sample Test Case Template, link
+31. Sample Issue Template, link
+32. Lookee here! Just in case you didn't notice the 'Cart' link in the global navigation, you can also find a link to your cart down here, too. Neat, huh?, link
+33. Get answers to all of your favorite support questions here, including such gems as "Where is my 'Any' key?" and "How many pins does a sixteen pin cable have?", link
+34. Gefälscht, link

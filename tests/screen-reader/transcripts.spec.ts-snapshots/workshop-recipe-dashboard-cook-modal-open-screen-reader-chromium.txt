@@ -1,0 +1,33 @@
+Page title: [INSERT TITLE HERE]
+
+## Headings (3)
+- h2 Cooking Chocolate Cake
+- h3 Ingredients
+- h3 Instructions
+
+## Landmarks (2)
+- main landmark, RECIPE DASHBOARD (with intentional a11y issues)
+- form landmark
+
+## Links (0)
+(none)
+
+## Form fields (2)
+- ⚠ no name, spin button, 50
+- I caused a grease fire making this, check box, not checked
+
+## Reading order (browse mode, down arrow)
+main landmark, RECIPE DASHBOARD (with intentional a11y issues)
+  dialog
+    heading level 2, Cooking Chocolate Cake
+    Close, button
+    form landmark
+      heading level 3, Ingredients
+      Ingredients ⚠ no role
+      heading level 3, Instructions
+      Instructions ⚠ no role
+      Rate the yumminess (0 - 50)
+      50
+      I caused a grease fire making this, check box, not checked
+      I COOKED IT, button
+      CLOSE, button

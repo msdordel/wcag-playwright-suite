@@ -3,6 +3,14 @@
 Automation catches roughly 30–40% of WCAG issues. This checklist covers the rest. Run it
 **per release** for changed pages, and do a **full pass quarterly** or before any conformance claim.
 
+## Before you start: read the transcript
+
+`tests/screen-reader` records what a simulated screen reader would announce on every page and UI state
+(`tests/screen-reader/transcripts.spec.ts-snapshots/`, also attached to each test in the HTML report). Read
+or listen to it first (`npm run read-aloud -- <page-id>`): it shows the headings, landmarks, link and
+field lists, reading order and Tab announcements, so the manual pass can focus on what only a real screen
+reader shows, such as verbosity, browse-mode behaviour, live-region timing and VoiceOver/Safari differences.
+
 ## AT / browser matrix
 
 | Screen reader | Browser | Platform | Priority |

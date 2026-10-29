@@ -1,0 +1,151 @@
+Page title: Gefälscht~~~Gefälscht CompuTech~~~
+
+## Headings (10)
+- h1 Gefälscht
+- h3 Welcome to Gefälscht CompuTech
+- h2 Parts and Supplies
+- h2 Visit our Brick & Mortar Store
+- h2 In Home Computer Service
+- h2 Laptops & Notebooks
+- h2 Desktops
+- h2 Test Course Materials
+- h2 Cart
+- h2 Support
+
+## Landmarks (1)
+- form landmark
+
+## Links (30)
+- Gefälscht
+- Home
+- Laptops & Notebooks
+- Desktops
+- Cart
+- Support
+- Contact
+- contact Deque Systems
+- Continue Reading »
+- this page
+- Continue Reading »
+- Continue Reading »
+- ⚠ no name
+- ⚠ no name
+- ⚠ no name
+- ⚠ no name
+- ⚠ no name
+- Fregatte 17
+- Abgenutzt 15
+- Backstein 21
+- Beschissen 750
+- Rindviecher 1000
+- Verrottet 875
+- Dragon Cheat Sheet
+- JAWS Cheat Sheet
+- Sample Test Case Template
+- Sample Issue Template
+- Lookee here! Just in case you didn't notice the 'Cart' link in the global navigation, you can also find a link to your cart down here, too. Neat, huh?
+- Get answers to all of your favorite support questions here, including such gems as "Where is my 'Any' key?" and "How many pins does a sixteen pin cable have?"
+- Gefälscht
+
+## Form fields (1)
+- ⚠ no name, edit, Search the site…
+
+## Reading order (browse mode, down arrow)
+heading level 1, Gefälscht
+Gefälscht CompuTech
+Tel: 703-555-1212 | Mail: info@deque.com
+form landmark
+  ⚠ no name, edit, Search the site…
+  GO, button
+list with 6 items
+  Home, link
+  Laptops & Notebooks, link
+  Desktops, link
+  Cart, link
+  Support, link
+  Contact, link
+heading level 3, Welcome to Gefälscht CompuTech
+Gefälscht - German for "Fake". This is a fake website, created by Deque Systems, for use during training. Our clients are pointed to this site so that we can train them using an inaccessible site without having to point to the site of a real company. This site has a number of intentional accessibility problems. It is not an example of how to do things but rather how not to do them. If you're interested in knowing how you can make an accessible website, need help making your website accessible, or want to have your website tested for accessibility, please
+contact Deque Systems, link
+.
+list with 3 items
+  heading level 2, Parts and Supplies
+  ⚠ no description, graphic
+  We sell parts and supplies for every computer we sell and even some that we don't. If we don't have a part, it doesn't exist. If it does exist and we don't have it, we'll get it. If we can't get it, we'll steal it. That's how we roll.
+  Continue Reading », link
+  heading level 2, Visit our Brick & Mortar Store
+  ⚠ no description, graphic
+  Look at that picture. Isn't it great? Want a bigger version? Go to
+  this page, link
+  and take a closer look. Our opulently appointed corporate offices are located in the finest strip mall within miles. We think you'll agree that our place is the place among places when you think of a place that does our sort of thing.
+  Continue Reading », link
+  heading level 2, In Home Computer Service
+  ⚠ no description, graphic
+  You don't like our place? Then we'll come to your place. We can fix your stuff in your home for a sizeable surcharge. We'll get there at a time that is incredibly inconvenient to you and come unprepared for the task at hand. You'll tell all your friends what great service you received!
+  Continue Reading », link
+list with 5 items
+  ⚠ no name, link
+  ⚠ no name, link
+  ⚠ no name, link
+  ⚠ no name, link
+  ⚠ no name, link
+heading level 2, Laptops & Notebooks
+list with 3 items
+  Fregatte 17, link
+  Abgenutzt 15, link
+  Backstein 21, link
+heading level 2, Desktops
+list with 3 items
+  Beschissen 750, link
+  Rindviecher 1000, link
+  Verrottet 875, link
+heading level 2, Test Course Materials
+list with 5 items
+  Dragon Cheat Sheet, link
+  JAWS Cheat Sheet, link
+  Sample Test Case Template, link
+  Sample Issue Template, link
+  Photo Credits
+heading level 2, Cart
+list with 1 items
+  Lookee here! Just in case you didn't notice the 'Cart' link in the global navigation, you can also find a link to your cart down here, too. Neat, huh?, link
+heading level 2, Support
+list with 1 items
+  Get answers to all of your favorite support questions here, including such gems as "Where is my 'Any' key?" and "How many pins does a sixteen pin cable have?", link
+Copyright © 2026 - All Rights Reserved -
+Gefälscht, link
+Gefälscht CompuTech
+
+## Tab order (what each Tab stop announces)
+1. Gefälscht, link
+2. ⚠ no name, edit
+3. GO, button
+4. Home, link
+5. Laptops & Notebooks, link
+6. Desktops, link
+7. Cart, link
+8. Support, link
+9. Contact, link
+10. contact Deque Systems, link
+11. Continue Reading », link
+12. this page, link
+13. Continue Reading », link
+14. Continue Reading », link
+15. ⚠ no name, link
+16. ⚠ no name, link
+17. ⚠ no name, link
+18. ⚠ no name, link
+19. ⚠ no name, link
+20. Fregatte 17, link
+21. Abgenutzt 15, link
+22. Backstein 21, link
+23. Beschissen 750, link
+24. Rindviecher 1000, link
+25. Verrottet 875, link
+26. Dragon Cheat Sheet, link
+27. JAWS Cheat Sheet, link
+28. Sample Test Case Template, link
+29. Sample Issue Template, link
+30. Lookee here! Just in case you didn't notice the 'Cart' link in the global navigation, you can also find a link to your cart down here, too. Neat, huh?, link
+31. Get answers to all of your favorite support questions here, including such gems as "Where is my 'Any' key?" and "How many pins does a sixteen pin cable have?", link
+32. Gefälscht, link

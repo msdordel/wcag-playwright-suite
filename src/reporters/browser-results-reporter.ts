@@ -26,7 +26,8 @@ const ERRORS = 'Test errors (timeouts, crashes): not accessibility findings';
 /** Why many cells read "Not run". Matches the engine strategy in playwright.config.ts. */
 const COVERAGE_NOTE =
   'Firefox and WebKit run only the keyboard, form and dialog tests, because those behave differently by engine. ' +
-  'axe, zoom/reflow, structure and content checks inspect the page itself and give the same answer in every engine, so they run once, in Chromium.';
+  'axe, zoom/reflow, structure and content checks inspect the page itself and give the same answer in every engine, so they run once, in Chromium. ' +
+  "Screen-reader transcripts read Chromium's accessibility tree, so they run in Chromium only.";
 const RATE_NOTE = 'Compare pass rates only for tests that ran in both browsers.';
 
 const empty = (): Counts => ({ passed: 0, failed: 0, flaky: 0, skipped: 0 });

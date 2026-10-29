@@ -1,0 +1,140 @@
+Page title: [INSERT TITLE HERE]
+
+## Headings (5)
+- h1 RECIPE DASHBOARD (with intentional a11y issues)
+- h2 decorative icon 9 EGGS USED
+- h2 decorative icon 10 RECIPES MADE
+- h2 decorative icon 3 GREASE FIRES
+- h2 6 month average yumminess breakdown YUMMINESS 45 avg
+
+## Landmarks (3)
+- navigation landmark
+- banner landmark
+- main landmark, RECIPE DASHBOARD (with intentional a11y issues)
+
+## Links (1)
+- Skip to Main Content
+
+## Form fields (0)
+(none)
+
+## Reading order (browse mode, down arrow)
+navigation landmark
+  Skip to Main Content, link
+banner landmark
+  menu bar
+    awesome recipes, menu item
+main landmark, RECIPE DASHBOARD (with intentional a11y issues)
+  heading level 1, RECIPE DASHBOARD (with intentional a11y issues)
+  heading level 2, decorative icon 9 EGGS USED
+  heading level 2, decorative icon 10 RECIPES MADE
+  heading level 2, decorative icon 3 GREASE FIRES
+  heading level 2, 6 month average yumminess breakdown YUMMINESS 45 avg
+  Edit ⚠ no role
+  ⚠ no description, graphic
+  Chocolate Cake
+  table
+    Prep time, rowheader
+    20 min, cell
+    Cook time, rowheader
+    30 min, cell
+    Difficulty, rowheader
+    Beginner, cell
+  COOK CHOCOLATE CAKE, button
+  Edit ⚠ no role
+  ⚠ no description, graphic
+  Mom's Spaghetti
+  table
+    Prep time, rowheader
+    10 min, cell
+    Cook time, rowheader
+    50 min, cell
+    Difficulty, rowheader
+    Beginner, cell
+  COOK MOM'S SPAGHETTI, button
+  Edit ⚠ no role
+  ⚠ no description, graphic
+  Filet Mignon
+  table
+    Prep time, rowheader
+    10 min, cell
+    Cook time, rowheader
+    50 min, cell
+    Difficulty, rowheader
+    Intermediate, cell
+  COOK FILET MIGNON, button
+  Edit ⚠ no role
+  ⚠ no description, graphic
+  Mega Burger
+  table
+    Prep time, rowheader
+    10 min, cell
+    Cook time, rowheader
+    20 min, cell
+    Difficulty, rowheader
+    Advanced, cell
+  COOK MEGA BURGER, button
+  Edit ⚠ no role
+  ⚠ no description, graphic
+  Grilled Cheese
+  table
+    Prep time, rowheader
+    2 min, cell
+    Cook time, rowheader
+    8 min, cell
+    Difficulty, rowheader
+    Beginner, cell
+  COOK GRILLED CHEESE, button
+  Edit ⚠ no role
+  ⚠ no description, graphic
+  Lemon Squares
+  table
+    Prep time, rowheader
+    10 min, cell
+    Cook time, rowheader
+    45 min, cell
+    Difficulty, rowheader
+    Beginner, cell
+  COOK LEMON SQUARES, button
+  Edit ⚠ no role
+  ⚠ no description, graphic
+  Kale Salad
+  table
+    Prep time, rowheader
+    10 min, cell
+    Cook time, rowheader
+    0 min, cell
+    Difficulty, rowheader
+    Intermediate, cell
+  COOK KALE SALAD, button
+  Edit ⚠ no role
+  ⚠ no description, graphic
+  Trail Mix
+  table
+    Prep time, rowheader
+    10 min, cell
+    Cook time, rowheader
+    0 min, cell
+    Difficulty, rowheader
+    Intermediate, cell
+  COOK TRAIL MIX, button
+
+## Tab order (what each Tab stop announces)
+1. Skip to Main Content, link
+2. awesome recipes, menu item
+3. Edit ⚠ no role
+4. COOK CHOCOLATE CAKE, button
+5. Edit ⚠ no role
+6. COOK MOM'S SPAGHETTI, button
+7. Edit ⚠ no role
+8. COOK FILET MIGNON, button
+9. Edit ⚠ no role
+10. COOK MEGA BURGER, button
+11. Edit ⚠ no role
+12. COOK GRILLED CHEESE, button
+13. Edit ⚠ no role
+14. COOK LEMON SQUARES, button
+15. Edit ⚠ no role
+16. COOK KALE SALAD, button
+17. Edit ⚠ no role
+18. COOK TRAIL MIX, button

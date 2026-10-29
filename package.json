@@ -13,7 +13,10 @@
     "test:critical": "playwright test --grep @critical",
     "update-tab-order": "playwright test tests/keyboard --update-snapshots",
     "report": "playwright show-report",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:screen-reader": "playwright test tests/screen-reader",
+    "update-transcripts": "playwright test tests/screen-reader --update-snapshots",
+    "read-aloud": "node scripts/read-aloud.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",

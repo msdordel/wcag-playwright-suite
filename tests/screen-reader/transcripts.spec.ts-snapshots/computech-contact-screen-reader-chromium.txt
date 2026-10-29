@@ -1,0 +1,152 @@
+Page title: Gefälscht~~~Gefälscht CompuTech~~~
+
+## Headings (7)
+- h1 Gefälscht
+- h1 Contact Us
+- h2 Laptops & Notebooks
+- h2 Desktops
+- h2 Test Course Materials
+- h2 Cart
+- h2 Support
+
+## Landmarks (2)
+- form landmark
+- form landmark
+
+## Links (22)
+- Gefälscht
+- Home
+- Laptops & Notebooks
+- Desktops
+- Cart
+- Support
+- Contact
+- Home
+- Contact Us
+- Fregatte 17
+- Abgenutzt 15
+- Backstein 21
+- Beschissen 750
+- Rindviecher 1000
+- Verrottet 875
+- Dragon Cheat Sheet
+- JAWS Cheat Sheet
+- Sample Test Case Template
+- Sample Issue Template
+- Lookee here! Just in case you didn't notice the 'Cart' link in the global navigation, you can also find a link to your cart down here, too. Neat, huh?
+- Get answers to all of your favorite support questions here, including such gems as "Where is my 'Any' key?" and "How many pins does a sixteen pin cable have?"
+- Gefälscht
+
+## Form fields (4)
+- ⚠ no name, edit, Search the site…
+- ⚠ no name, edit
+- ⚠ no name, edit
+- ⚠ no name, edit
+
+## Reading order (browse mode, down arrow)
+heading level 1, Gefälscht
+Gefälscht CompuTech
+Tel: 703-555-1212 | Mail: info@deque.com
+form landmark
+  ⚠ no name, edit, Search the site…
+  GO, button
+list with 6 items
+  Home, link
+  Laptops & Notebooks, link
+  Desktops, link
+  Cart, link
+  Support, link
+  Contact, link
+list with 5 items
+  You Are Here
+  »
+  Home, link
+  »
+  Contact Us, link
+heading level 1, Contact Us
+Sales
+E-mail: sales@example.com
+Phone: 703-555-1212
+Fax: 703-555-1212
+Service
+E-mail: sales@example.com
+Phone: 703-555-1212
+Fax: 703-555-1212
+Support
+E-mail: sales@example.com
+Phone: 703-555-1212
+Fax: 703-555-1212
+Visit Us
+123 Fake Street
+Suite ABC
+Reston, VA 20191 USA
+Hours
+Monday 10am - 7pm Tuesday 9am - 7pm Wednesday 9am - 7pm Thursday 9am - 7pm Friday 9am - 7pm Saturday 9am - 9pm Sunday 10am - 5pm
+Send Us A Message
+form landmark
+  table
+    Your Name, cell
+    cell
+    Your E-mail, cell
+    cell
+    Your Message, cell
+    cell
+    cell
+    Send us a message, cell
+⚠ no description, graphic
+heading level 2, Laptops & Notebooks
+list with 3 items
+  Fregatte 17, link
+  Abgenutzt 15, link
+  Backstein 21, link
+heading level 2, Desktops
+list with 3 items
+  Beschissen 750, link
+  Rindviecher 1000, link
+  Verrottet 875, link
+heading level 2, Test Course Materials
+list with 5 items
+  Dragon Cheat Sheet, link
+  JAWS Cheat Sheet, link
+  Sample Test Case Template, link
+  Sample Issue Template, link
+  Photo Credits
+heading level 2, Cart
+list with 1 items
+  Lookee here! Just in case you didn't notice the 'Cart' link in the global navigation, you can also find a link to your cart down here, too. Neat, huh?, link
+heading level 2, Support
+list with 1 items
+  Get answers to all of your favorite support questions here, including such gems as "Where is my 'Any' key?" and "How many pins does a sixteen pin cable have?", link
+Copyright © 2026 - All Rights Reserved -
+Gefälscht, link
+Gefälscht CompuTech
+
+## Tab order (what each Tab stop announces)
+1. Gefälscht, link
+2. ⚠ no name, edit
+3. GO, button
+4. Home, link
+5. Laptops & Notebooks, link
+6. Desktops, link
+7. Cart, link
+8. Support, link
+9. Contact, link
+10. Home, link
+11. Contact Us, link
+12. ⚠ no name, edit
+13. ⚠ no name, edit
+14. ⚠ no name, edit
+15. Send us a message, button
+16. Fregatte 17, link
+17. Abgenutzt 15, link
+18. Backstein 21, link
+19. Beschissen 750, link
+20. Rindviecher 1000, link
+21. Verrottet 875, link
+22. Dragon Cheat Sheet, link
+23. JAWS Cheat Sheet, link
+24. Sample Test Case Template, link
+25. Sample Issue Template, link
+26. Lookee here! Just in case you didn't notice the 'Cart' link in the global navigation, you can also find a link to your cart down here, too. Neat, huh?, link
+27. Get answers to all of your favorite support questions here, including such gems as "Where is my 'Any' key?" and "How many pins does a sixteen pin cable have?", link
+28. Gefälscht, link

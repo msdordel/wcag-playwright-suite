@@ -95,6 +95,8 @@ const CHECKS: Check[] = [
   { sc: '3.3.1', match: /associated|describedby|errormessage/i, text: 'Link the error text to its field with aria-describedby (or aria-errormessage).' },
   { sc: '3.3.1', match: /.*/, text: 'Show the error as text next to the field, link it with aria-describedby, and move focus to the first invalid field.' },
   { sc: '3.3.2', match: /.*/, text: 'Give the field a visible label that says what to enter.' },
+  { sc: '4.1.2', match: /without a role/i, text: 'Use a native <button> or <a href> for anything users can Tab to and activate, or add the matching role (role="button", role="link") plus keyboard handling.' },
+  { sc: '1.3.2', match: /screen reader announces changed/i, text: 'Review the transcript diff (or listen: npm run read-aloud -- <page-id>). If the new reading order and wording are right, re-baseline with npm run update-transcripts; if not, fix the DOM order, names or roles.' },
   { sc: '4.1.2', match: /dialog.*name|accessible name \(aria-labelledby/i, text: 'Name the dialog: add aria-labelledby pointing at its heading.' },
   { sc: '4.1.2', match: /aria-modal|showModal/i, text: 'Open the dialog with <dialog>.showModal(), or add aria-modal="true" to the role="dialog" element.' },
   { sc: '4.1.2', match: /role=button|expose role/i, text: 'Use a native <button> for clickable controls, or add role="button" and a name.' },

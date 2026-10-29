@@ -1,0 +1,130 @@
+Page title: Gefälscht~~~Gefälscht CompuTech~~~
+
+## Headings (7)
+- h1 Gefälscht
+- h1 Fregatte 17
+- h2 Laptops & Notebooks
+- h2 Desktops
+- h2 Test Course Materials
+- h2 Cart
+- h2 Support
+
+## Landmarks (1)
+- form landmark
+
+## Links (24)
+- Gefälscht
+- Home
+- Laptops & Notebooks
+- Desktops
+- Cart
+- Support
+- Contact
+- Home
+- Laptops & Notebooks
+- Fregatte 17
+- ⚠ no name
+- Fregatte 17
+- Abgenutzt 15
+- Backstein 21
+- Beschissen 750
+- Rindviecher 1000
+- Verrottet 875
+- Dragon Cheat Sheet
+- JAWS Cheat Sheet
+- Sample Test Case Template
+- Sample Issue Template
+- Lookee here! Just in case you didn't notice the 'Cart' link in the global navigation, you can also find a link to your cart down here, too. Neat, huh?
+- Get answers to all of your favorite support questions here, including such gems as "Where is my 'Any' key?" and "How many pins does a sixteen pin cable have?"
+- Gefälscht
+
+## Form fields (1)
+- ⚠ no name, edit, Search the site…
+
+## Reading order (browse mode, down arrow)
+heading level 1, Gefälscht
+Gefälscht CompuTech
+Tel: 703-555-1212 | Mail: info@deque.com
+form landmark
+  ⚠ no name, edit, Search the site…
+  GO, button
+list with 6 items
+  Home, link
+  Laptops & Notebooks, link
+  Desktops, link
+  Cart, link
+  Support, link
+  Contact, link
+list with 7 items
+  You Are Here
+  »
+  Home, link
+  »
+  Laptops & Notebooks, link
+  »
+  Fregatte 17, link
+heading level 1, Fregatte 17
+⚠ no description, graphic
+We had so many superlatives lined up to describe this classically-styled, ultra portable, budget-friendly, high performance machine that we couldn't contain ourselves.
+list with 6 items
+  Genuine Windows 7 Home Premium 64-bit
+  3GB DDR3 System Memory
+  500GB 5400RPM Hard Drive
+  802.11b/g/n WLAN
+  Intel(R) Pentium(R) B950 Processor
+  Up to 5.50 hours of battery life
+⚠ no name, link
+heading level 2, Laptops & Notebooks
+list with 3 items
+  Fregatte 17, link
+  Abgenutzt 15, link
+  Backstein 21, link
+heading level 2, Desktops
+list with 3 items
+  Beschissen 750, link
+  Rindviecher 1000, link
+  Verrottet 875, link
+heading level 2, Test Course Materials
+list with 5 items
+  Dragon Cheat Sheet, link
+  JAWS Cheat Sheet, link
+  Sample Test Case Template, link
+  Sample Issue Template, link
+  Photo Credits
+heading level 2, Cart
+list with 1 items
+  Lookee here! Just in case you didn't notice the 'Cart' link in the global navigation, you can also find a link to your cart down here, too. Neat, huh?, link
+heading level 2, Support
+list with 1 items
+  Get answers to all of your favorite support questions here, including such gems as "Where is my 'Any' key?" and "How many pins does a sixteen pin cable have?", link
+Copyright © 2026 - All Rights Reserved -
+Gefälscht, link
+Gefälscht CompuTech
+
+## Tab order (what each Tab stop announces)
+1. Gefälscht, link
+2. ⚠ no name, edit
+3. GO, button
+4. Home, link
+5. Laptops & Notebooks, link
+6. Desktops, link
+7. Cart, link
+8. Support, link
+9. Contact, link
+10. Home, link
+11. Laptops & Notebooks, link
+12. Fregatte 17, link
+13. ⚠ no name, link
+14. Fregatte 17, link
+15. Abgenutzt 15, link
+16. Backstein 21, link
+17. Beschissen 750, link
+18. Rindviecher 1000, link
+19. Verrottet 875, link
+20. Dragon Cheat Sheet, link
+21. JAWS Cheat Sheet, link
+22. Sample Test Case Template, link
+23. Sample Issue Template, link
+24. Lookee here! Just in case you didn't notice the 'Cart' link in the global navigation, you can also find a link to your cart down here, too. Neat, huh?, link
+25. Get answers to all of your favorite support questions here, including such gems as "Where is my 'Any' key?" and "How many pins does a sixteen pin cable have?", link
+26. Gefälscht, link

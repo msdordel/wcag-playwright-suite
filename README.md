@@ -41,6 +41,9 @@ A full run takes about 90 seconds on a laptop.
 | `npm run test:axe` / `test:keyboard` / `test:adaptation` | One layer |
 | `npx playwright test tests/unit` | Browserless unit tests for the content heuristics (< 1s) |
 | `npm run update-tab-order` | Re-baseline tab order **after a human has reviewed the diff** |
+| `npm run test:screen-reader` | Simulated screen-reader transcripts only |
+| `npm run update-transcripts` | Re-baseline transcripts **after a human has reviewed the diff** |
+| `npm run read-aloud -- dream-home` | Hear a page's transcript through macOS speech (add `headings`, `links`, `tab`… for one list; `--print` to print it) |
 | `npm run typecheck` | TypeScript check |
 
 Set `WCAG_TARGET` to `2.0-AA`, `2.1-AA`, or `2.2-AA` (default) to change which axe rules gate the build
@@ -159,6 +162,7 @@ when a modal closes.
 | 2. Keyboard | `tests/keyboard` | Tab through every page: reachability, traps, visible and unobscured focus, no change on focus, tab-order snapshot, skip link | 2.1.1, 2.1.2, 2.4.1, 2.4.3, 2.4.7, 2.4.11, 3.2.1 |
 | 3. Adaptation | `tests/adaptation` | 320px reflow, 200% zoom, text-spacing override, orientation | 1.3.4, 1.4.4, 1.4.10, 1.4.12 |
 | 4. Semantics | `tests/semantics` | Descriptive titles, lang, landmarks, consistent navigation; **meaningful names** (no placeholders, filename alts, or "decorative" alts) | 1.1.1, 2.4.2, 2.4.6, 3.1.1, 3.2.3 |
+| 4b. Screen reader (simulated) | `tests/screen-reader` | What a listener would hear on every page and UI state: headings, landmarks, links and form-field lists; browse-mode reading order; each Tab stop's announcement. Saved as reviewed snapshots; flags Tab stops announced with no name or no role | 1.3.1, 1.3.2, 4.1.2 |
 | 5. Patterns | `tests/forms`, `tests/components` | Error identification and association, focus management, modal dialog contract, hover/focus popups | 2.1.1, 3.3.1, 4.1.2, 1.4.13 |
 | 6. Governance | `tests/governance` | Waivers are ticketed, approved, and unexpired | — |
 | — Unit | `tests/unit` | The content heuristics themselves, against known-good and known-bad strings | — |
@@ -173,6 +177,8 @@ src/a11y/fixtures.ts          `axe` fixture (waivers, attachments), sc(), gotoSt
 src/a11y/keyboard.ts          tab traversal, focus-indicator diff, obscured check, reachability
 src/a11y/adaptation.ts        reflow overflow, clipped-text detection, 1.4.12 CSS
 src/a11y/content-quality.ts   placeholder / meaningless-name heuristics
+src/a11y/screen-reader.ts     simulated screen reader (Chromium accessibility tree → announcements)
+scripts/read-aloud.mjs        plays a transcript through macOS speech
 src/a11y/waivers.ts           waiver register
 src/reporters/                → reports/wcag-coverage.{md,json}, reports/browser-results.{html,md,json}
 ```
@@ -212,6 +218,7 @@ certificate checks turned off. A site declares this with
 - **Clipped text** detects overflow clipping, not overlapping text.
 - **Reachability** can't see click handlers on non-focusable `div`s.
 - **Content checks** catch obvious junk (placeholders, filenames, "image", "decorative"), not inaccurate descriptions.
+- **The simulated screen reader** reads Chromium's accessibility tree, the one NVDA and JAWS get from Chrome. It shows what the page exposes, not what a particular screen reader does with it: verbosity settings, browse-mode quirks, live-region timing and VoiceOver with Safari (WebKit's tree) still need the manual passes.
 - Automation finds roughly 30–40% of WCAG issues. See `docs/MANUAL-TESTING.md` for the rest.
 
 ## License
